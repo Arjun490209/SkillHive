@@ -25,6 +25,7 @@ const Login = () => {
             <input
               type="email"
               name=""
+              autoComplete="email"
               id="email"
               className="border w-full h-9 border-[#e7e6e6] text-[15px] px-5 "
               placeholder="your@email.com"
@@ -38,6 +39,7 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name=""
+                autoComplete="password"
                 id="password"
                 className="border w-full h-9 border-[#e7e6e6] text-[15px] px-5 "
                 placeholder="Enter Your Password"

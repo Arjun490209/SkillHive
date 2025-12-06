@@ -2,14 +2,52 @@ import React, { useState } from "react";
 import { IoMdEye, IoIosEyeOff } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import google from "../assets/google.png";
+import axios from "../utils/axios";
+import { toast } from "react-toastify";
+import { CircleLoader } from "react-spinners";
 
 const SignUp = () => {
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSignup = async () => {
+    setIsLoading(true);
+    // Add your sign-up logic here
+    try {
+      const result = await axios.post("/api/auth/signup", {
+        name,
+        email,
+        password,
+        role,
+      });
+      toast.success("Signup Successful! Please login.");
+      console.log(result.data);
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate("/login");
+      }, 500);
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
+      toast.error(
+        error.response.data.message || "Signup Failed. Please try again."
+      );
+    }
+  };
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-blue-200">
-      <form className="w-[90%] md:w-200 h-150 bg-white rounded-2xl shadow-lg flex ">
+      <form
+        className="w-[90%] md:w-200 h-150 bg-white rounded-2xl shadow-lg flex "
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         {/* left div */}
         <div className="md:w-[50%] w-[100%] h-[100%] rounded-l-2xl flex flex-col items-center justify-center gap-3">
           <div className="flex flex-col items-center justify-center gap-1">
@@ -25,7 +63,12 @@ const SignUp = () => {
             </label>
             <input
               type="text"
-              name=""
+              name="Fullname"
+              autoComplete="name"
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+              value={name}
               id="name"
               className="border w-full h-9 border-[#e7e6e6] text-[15px] px-5 "
               placeholder="Enter Your Name"
@@ -38,6 +81,11 @@ const SignUp = () => {
             <input
               type="email"
               name=""
+              autoComplete="email"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              value={email}
               id="email"
               className="border w-full h-9 border-[#e7e6e6] text-[15px] px-5 "
               placeholder="your@email.com"
@@ -51,6 +99,11 @@ const SignUp = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name=""
+                autoComplete="current-password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                value={password}
                 id="password"
                 className="border w-full h-9 border-[#e7e6e6] text-[15px] px-5 "
                 placeholder="Enter Your Password"
@@ -69,15 +122,30 @@ const SignUp = () => {
             </div>
           </div>
           <div className=" flex md:w-[50%] w-[70%] items-center justify-between">
-            <span className="px-4 py-1 rounded-sm border-2 border-[#e7e6e6] cursor-pointer hover:border-black">
+            <span
+              className={`px-4 py-1 rounded-sm border-2 border-[#e7e6e6] cursor-pointer ${
+                role === "student" ? "border-gray-600" : ""
+              }`}
+              onClick={() => setRole("student")}
+            >
               Student
             </span>
-            <span className="px-4 py-1 rounded-sm border-2 border-[#e7e6e6] cursor-pointer hover:border-black">
+            <span
+              className={`px-4 py-1 rounded-sm border-2 border-[#e7e6e6] cursor-pointer ${
+                role === "educator" ? "border-gray-600" : ""
+              }`}
+              onClick={() => setRole("educator")}
+            >
               Educator
             </span>
           </div>
-          <button className="w-[75%] h-10 bg-black text-white cursor-pointer flex items-center justify-center rounded-[5px]">
-            Sign Up
+          <button
+            type="submit"
+            className="w-[75%] h-10 bg-black text-white cursor-pointer flex items-center justify-center rounded-[5px] "
+            disabled={isLoading}
+            onClick={handleSignup}
+          >
+            {isLoading ? <CircleLoader color="#ffffff" size={24} /> : "Sign Up"}
           </button>
           <div className="w-[75%] flex justify-center items-center gap-2">
             <div className="w-[25%] h-0.5 bg-[#c4c4c4] "></div>
