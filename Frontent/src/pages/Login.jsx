@@ -92,7 +92,7 @@ const handleLogin = async () => {
           </div>
           
           <button className="w-[75%] h-10 bg-black text-white cursor-pointer flex items-center justify-center rounded-[5px]" hidden={isLoading} onClick={handleLogin}>
-            {isLoading ? <CircleLoader size={20} color={"#ffffff"} /> : "Login"}
+            {isLoading ? <CircleLoader color="#ffffff" size={24} /> : "Login"}
           </button>
           <span className="text-sm cursor-pointer text-[#585757] hover:text-black">Forgot your Password?</span>
           <div className="w-[75%] flex justify-center items-center gap-2">
