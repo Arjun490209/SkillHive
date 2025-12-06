@@ -2,13 +2,42 @@ import React, { useState } from "react";
 import { IoMdEye, IoIosEyeOff } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import google from "../assets/google.png";
+import axios from "../utils/axios";
+import { toast } from "react-toastify";
+import {CircleLoader} from 'react-spinners'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+const handleLogin = async () => {
+    setIsLoading(true);
+    // Add login logic here
+    try {
+      const result = await axios.post("/api/auth/login", {
+        email,
+        password,
+      });
+      toast.success("Login Successful!");
+      console.log(result.data);
+      setTimeout(() => {
+        setIsLoading(false);
+        navigate("/");
+      }, 500);
+    } catch (error) {
+      toast.error(
+        error.response.data.message || "Login Failed. Please try again."
+      );
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-blue-200">
-      <form className="w-[90%] md:w-200 h-150 bg-white rounded-2xl shadow-lg flex ">
+      <form className="w-[90%] md:w-200 h-150 bg-white rounded-2xl shadow-lg flex " onSubmit={(e)=>{e.preventDefault()}}>
         {/* left div */}
         <div className="md:w-[50%] w-[100%] h-[100%] rounded-l-2xl flex flex-col items-center justify-center gap-3">
             <div className="flex flex-col items-center justify-center gap-1">
@@ -25,6 +54,8 @@ const Login = () => {
             <input
               type="email"
               name=""
+              onChange={(e)=>{setEmail(e.target.value)}}
+              value={email}
               autoComplete="email"
               id="email"
               className="border w-full h-9 border-[#e7e6e6] text-[15px] px-5 "
@@ -41,6 +72,8 @@ const Login = () => {
                 name=""
                 autoComplete="password"
                 id="password"
+                onChange={(e)=>{setPassword(e.target.value)}}
+                value={password}
                 className="border w-full h-9 border-[#e7e6e6] text-[15px] px-5 "
                 placeholder="Enter Your Password"
               />
@@ -58,8 +91,8 @@ const Login = () => {
             </div>
           </div>
           
-          <button className="w-[75%] h-10 bg-black text-white cursor-pointer flex items-center justify-center rounded-[5px]">
-            Sign Up
+          <button className="w-[75%] h-10 bg-black text-white cursor-pointer flex items-center justify-center rounded-[5px]" hidden={isLoading} onClick={handleLogin}>
+            {isLoading ? <CircleLoader size={20} color={"#ffffff"} /> : "Login"}
           </button>
           <span className="text-sm cursor-pointer text-[#585757] hover:text-black">Forgot your Password?</span>
           <div className="w-[75%] flex justify-center items-center gap-2">
