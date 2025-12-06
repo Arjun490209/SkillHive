@@ -3,59 +3,143 @@ import User from "../models/userModal.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 
+// export const signUp = async (req, res) => {
+//   try {
+//     const { name, email, password, role } = req.body;
+
+//     //! Validate
+//     if (!name || !email || !password || !role) {
+//       return res.status(400).json({ message: "All fields are required." });
+//     }
+
+//     if (!validator.isEmail(email)) {
+//       return res.status(400).json({ message: "Email is not valid." });
+//     }
+
+//     if (password.length < 8) {
+//       return res.status(400).json({ message: "Password must be 8+ characters." });
+//     }
+
+//     //! Check user exists
+//     const existUser = await User.findOne({ email });
+//     if (existUser) {
+//       return res.status(400).json({ message: "User already exists." });
+//     }
+
+//     // !Hash password
+//     const hashPassword = await bcrypt.hash(password, 10);
+
+//     //! Create user
+//     const user = await User.create({
+//       name,
+//       email,
+//       password: hashPassword,
+//       role,
+//     });
+
+//     //! Generate token
+//     const token = await genToken(user._id);
+
+//     //! Set cookie
+//     res.cookie("token", token, {
+//       httpOnly: true,
+//       secure:  process.env.NODE_ENV === "production",
+//       sameSite: "Strict",
+//       maxAge: 7 * 24 * 60 * 60 * 1000,
+//     });
+
+//     user.password =undefined
+//     return res.status(201).json({user});
+
+//   } catch (error) {
+//     console.log(error)
+//     return res.status(500).json({ message: `SignUp error ${error.message}` });
+//   }
+// };
+
 export const signUp = async (req, res) => {
   try {
+    // 🔹 MongoDB connection debug
+    console.log("Attempting to connect to MongoDB...");
+    try {
+      const db = await connectDb();
+      console.log("✅ MongoDB connected:", db.connection.host);
+    } catch (err) {
+      console.error("❌ MongoDB connection failed:", err);
+      return res.status(500).json({ message: "Database connection failed" });
+    }
+
     const { name, email, password, role } = req.body;
 
-    //! Validate
+    // Validation
     if (!name || !email || !password || !role) {
+      console.warn("⚠️ Validation failed: Missing fields");
       return res.status(400).json({ message: "All fields are required." });
     }
 
     if (!validator.isEmail(email)) {
+      console.warn("⚠️ Validation failed: Invalid email");
       return res.status(400).json({ message: "Email is not valid." });
     }
 
     if (password.length < 8) {
+      console.warn("⚠️ Validation failed: Password too short");
       return res.status(400).json({ message: "Password must be 8+ characters." });
     }
 
-    //! Check user exists
-    const existUser = await User.findOne({ email });
+    // Check if user exists
+    let existUser;
+    try {
+      existUser = await User.findOne({ email });
+      console.log("Checked existing user:", existUser ? existUser.email : "No user found");
+    } catch (err) {
+      console.error("❌ Error checking existing user:", err);
+      return res.status(500).json({ message: "Error checking existing user" });
+    }
+
     if (existUser) {
+      console.warn("⚠️ User already exists:", email);
       return res.status(400).json({ message: "User already exists." });
     }
 
-    // !Hash password
+    // Hash password
     const hashPassword = await bcrypt.hash(password, 10);
 
-    //! Create user
-    const user = await User.create({
-      name,
-      email,
-      password: hashPassword,
-      role,
-    });
+    // Create user
+    let user;
+    try {
+      user = await User.create({
+        name,
+        email,
+        password: hashPassword,
+        role,
+      });
+      console.log("✅ User created:", user.email);
+    } catch (err) {
+      console.error("❌ Error creating user:", err);
+      return res.status(500).json({ message: "Error creating user" });
+    }
 
-    //! Generate token
+    // Generate token
     const token = await genToken(user._id);
 
-    //! Set cookie
+    // Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure:  process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    user.password =undefined
-    return res.status(201).json({user});
+    user.password = undefined;
+    return res.status(201).json({ user });
 
   } catch (error) {
-    console.log(error)
+    console.error("❌ Signup error:", error);
     return res.status(500).json({ message: `SignUp error ${error.message}` });
   }
 };
+
 
 export const login = async (req, res) => {
   try {
