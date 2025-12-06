@@ -1,12 +1,38 @@
+// import mongoose from "mongoose";
+
+// const connectDb = async () => {
+//   try {
+//     await mongoose.connect(process.env.MONGO_URL);
+//     console.log("DB connected ..");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// export default connectDb;
+
+
+
 import mongoose from "mongoose";
 
-const connectDb = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URL);
-    console.log("DB connected ..");
-  } catch (error) {
-    console.log(error);
+let cached = global.mongoose;
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectDb() {
+  if (cached.conn) {
+    return cached.conn;
   }
-};
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGO_URL).then((mongoose) => {
+      return mongoose;
+    });
+  }
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
 
 export default connectDb;
