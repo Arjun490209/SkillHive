@@ -1,29 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { IoPersonCircle } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "../utils/axios";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 import { setUserData } from "../redux/userSlice.js";
 
 const Nav = () => {
   const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = async() => {
+  const handleLogout = async () => {
     try {
       const result = await axios.get("/api/auth/logout");
       dispatch(setUserData(null));
-      console.log(result.data)
-      toast.success(result.response.data.message);
+      console.log(result.data);
+      toast.success("Logged out successfully");
     } catch (error) {
-      console.log(error)
-      toast.error(error.response.data.message)
+      console.log(error?.response?.data || error.message);
+      toast.error(error.response.data.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -60,11 +60,17 @@ const Nav = () => {
 
           {/* Login / Logout Button */}
           {!userData ? (
-            <span className="px-3 sm:px-4 py-2 bg-black text-white rounded-lg text-sm sm:text-base cursor-pointer" onClick={() => navigate("/login")}>
+            <span
+              className="px-3 sm:px-4 py-2 bg-black text-white rounded-lg text-sm sm:text-base cursor-pointer"
+              onClick={() => navigate("/login")}
+            >
               Login
             </span>
           ) : (
-            <span className="px-3 sm:px-4 py-2 bg-white text-black rounded-lg text-sm sm:text-base cursor-pointer" onClick={handleLogout}>
+            <span
+              className="px-3 sm:px-4 py-2 bg-white text-black rounded-lg text-sm sm:text-base cursor-pointer"
+              onClick={handleLogout}
+            >
               Logout
             </span>
           )}
