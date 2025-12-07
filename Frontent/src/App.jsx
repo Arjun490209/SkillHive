@@ -4,8 +4,10 @@ import Home from './pages/Home'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
 import {ToastContainer} from 'react-toastify'
+import getCurrentUser from './costumHooks/getCurrentUser'
 
 const App = () => {
+  getCurrentUser()
   return (
     <>
     <ToastContainer/>

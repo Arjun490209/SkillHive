@@ -5,6 +5,8 @@ import google from "../assets/google.png";
 import axios from "../utils/axios";
 import { toast } from "react-toastify";
 import { CircleLoader } from "react-spinners";
+import {useDispatch} from 'react-redux'
+import {setUserData} from '../redux/userSlice'
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch()
 
   const handleSignup = async () => {
     setIsLoading(true);
@@ -26,7 +29,7 @@ const SignUp = () => {
         role,
       });
       toast.success("Signup Successful! Please login.");
-      console.log(result.data);
+      dispatch(setUserData(result.data));
       setTimeout(() => {
         setIsLoading(false);
         navigate("/login");
