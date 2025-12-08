@@ -108,7 +108,7 @@ const Login = () => {
           >
             {isLoading ? <CircleLoader color="#ffffff" size={24} /> : "Login"}
           </button>
-          <span className="text-sm cursor-pointer text-[#585757] hover:text-black">
+          <span className="text-sm cursor-pointer text-[#585757] hover:text-black" onClick={()=>{navigate('/forget-password')}}>
             Forgot your Password?
           </span>
           <div className="w-[75%] flex justify-center items-center gap-2">

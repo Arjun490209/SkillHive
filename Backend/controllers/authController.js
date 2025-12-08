@@ -2,6 +2,7 @@ import genToken from "../config/token.js";
 import User from "../models/userModal.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
+import sendMail from '../config/sendMail.js'
 
 export const signUp = async (req, res) => {
   try {
@@ -17,7 +18,9 @@ export const signUp = async (req, res) => {
     }
 
     if (password.length < 8) {
-      return res.status(400).json({ message: "Password must be 8+ characters." });
+      return res
+        .status(400)
+        .json({ message: "Password must be 8+ characters." });
     }
 
     //! Check user exists
@@ -43,22 +46,18 @@ export const signUp = async (req, res) => {
     //! Set cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure:  process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    user.password =undefined
-    return res.status(201).json({user});
-
+    user.password = undefined;
+    return res.status(201).json({ user });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({ message: `SignUp error ${error.message}` });
   }
 };
-
-
-
 
 export const login = async (req, res) => {
   try {
@@ -85,7 +84,6 @@ export const login = async (req, res) => {
 
     user.password = undefined;
     return res.status(200).json(user);
-
   } catch (error) {
     return res.status(500).json({ message: `Login error ${error.message}` });
   }
@@ -97,5 +95,32 @@ export const logOut = async (req, res) => {
     return res.status(200).json({ message: "Logout successfully" });
   } catch (error) {
     return res.status(500).json({ message: `Logout error ${error.message}` });
+  }
+};
+
+export const sendOtp = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User Not Found." });
+    }
+
+    const otp = Math.floor(1000 + Math.random() * 9999).toString();
+
+    user.setOtp = otp;
+
+    user.otpExpires = Date.now() + 5 * 60 * 1000;
+    user.isOtpVerified = false
+
+    await user.save()
+
+    await sendMail(email, otp)
+
+    return res.status(200).json({message: "OTP Send successfully"})
+
+  } catch (error) {
+    return res.status(500).json({ message: `OTP error ${error.message}` });
   }
 };
