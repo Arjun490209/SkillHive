@@ -13,27 +13,47 @@
 
 
 
+// import mongoose from "mongoose";
+
+// let cached = global.mongoose;
+
+// if (!cached) {
+//   cached = global.mongoose = { conn: null, promise: null };
+// }
+
+// async function connectDb() {
+//   if (cached.conn) {
+//     return cached.conn;
+//   }
+
+//   if (!cached.promise) {
+//     cached.promise = mongoose.connect(process.env.MONGO_URL).then((mongoose) => {
+//       return mongoose;
+//     });
+//   }
+//   cached.conn = await cached.promise;
+//   console.log("db connect")
+//   return cached.conn;
+// }
+
+// export default connectDb;
+
+
 import mongoose from "mongoose";
 
-let cached = global.mongoose;
+const connectDb = async () => {
+  try {
+    if (mongoose.connection.readyState >= 1) {
+      console.log("✅ MongoDB already connected");
+      return;
+    }
 
-if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
-}
-
-async function connectDb() {
-  if (cached.conn) {
-    return cached.conn;
+    await mongoose.connect(process.env.MONGO_URL);
+    console.log("✅ MongoDB connected successfully");
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error.message);
+    process.exit(1);
   }
-
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(process.env.MONGO_URL).then((mongoose) => {
-      return mongoose;
-    });
-  }
-  cached.conn = await cached.promise;
-  console.log("db connect")
-  return cached.conn;
-}
+};
 
 export default connectDb;

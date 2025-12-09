@@ -102,13 +102,13 @@ export const logOut = async (req, res) => {
 export const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
-    await connectDb()
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: "User Not Found." });
     }
 
-    const otp = Math.floor(1000 + Math.random() * 9999).toString();
+    const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
 
     user.setOtp = otp;
 
@@ -124,6 +124,32 @@ export const sendOtp = async (req, res) => {
     return res.status(500).json({ message: `OTP error ${error.message}` });
   }
 };
+
+// export const sendOtp = async (req, res) => {
+//   try {
+//     const { email } = req.body;
+
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(400).json({ message: "User Not Found." });
+//     }
+
+//     const otp = Math.floor(1000 + Math.random() * 9000).toString();
+
+//     user.setOtp = otp;
+//     user.otpExpires = Date.now() + 5 * 60 * 1000;
+//     user.isOtpVerified = false;
+
+//     await user.save();
+//     await sendMail(email, otp);
+
+//     return res.status(200).json({ message: "OTP Sent successfully" });
+//   } catch (error) {
+//     console.log("SEND OTP ERROR =>", error);
+//     return res.status(500).json({ message: `OTP error ${error.message}` });
+//   }
+// };
+
 
 export const verifyOtp = async (req, res) => {
   try {
