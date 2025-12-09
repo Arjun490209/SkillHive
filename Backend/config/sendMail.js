@@ -11,6 +11,8 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendMail = async (to, otp) => {
+  console.log("EMAIL:", process.env.USER_EMAIL);
+  console.log("PASS:", process.env.USER_PASS ? "LOADED" : "NOT LOADED");
   await transporter.sendMail({
     from: `"SkillHive" <${process.env.USER_EMAIL}>`, // ✅ fixed
     to,

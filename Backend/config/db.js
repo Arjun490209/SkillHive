@@ -32,6 +32,7 @@ async function connectDb() {
     });
   }
   cached.conn = await cached.promise;
+  console.log("db connect")
   return cached.conn;
 }
 
