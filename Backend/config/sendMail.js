@@ -5,15 +5,12 @@ dotenv.config(); // Make sure this is at the top
 
 // ✅ Create transporter
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // startTLS
+  host: process.env.SMTP_HOST,       // 🔁 changed
+  port: Number(process.env.SMTP_PORT), // 🔁 changed
+  secure: false,                     // startTLS
   auth: {
-    user: process.env.USER_EMAIL,
-    pass: process.env.USER_PASS, // App password
-  },
-  tls: {
-    rejectUnauthorized: false,
+    user: process.env.SMTP_USER,     // 🔁 changed
+    pass: process.env.SMTP_PASS,     // 🔁 changed
   },
 });
 
@@ -30,14 +27,12 @@ transporter.verify((err, success) => {
 const sendMail = async (to, otp) => {
   try {
     await transporter.sendMail({
-      from: `"SkillHive" <${process.env.USER_EMAIL}>`,
+      from: `"SkillHive" <${process.env.SMTP_SENDER}>`,   // 🔁 changed
       to,
       subject: "Reset Your Password",
       html: `<p>Your OTP for password reset is <b>${otp}</b>. It expires in 5 minutes.</p>`,
     });
-    // console.log(`OTP sent successfully to ${to} ✅`);
   } catch (err) {
-    // console.log("MAIL ERROR:", err);
     throw new Error("OTP error " + err.message);
   }
 };
