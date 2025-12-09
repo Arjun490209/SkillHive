@@ -22,9 +22,9 @@ const App = () => {
       <Route path='/signup' element={!userData ? <SignUp/>: <Navigate to={'/'} />} />
       <Route path='/login' element={<Login/>} />
       <Route path='/profile' element={userData ?<Profile/> : <Navigate to={'/signup'} />}/>
-      {/* <Route path='/forget-password' element={userData ?<ForgetPassword/> : <Navigate to={'/signup'} />}/> */}
+      <Route path='/forget-password' element={userData ?<ForgetPassword/> : <Navigate to={'/signup'} />}/>
 
-    <Route path='/forget-password' element={<ForgetPassword/>} />
+    
     </Routes>
     </>
   )

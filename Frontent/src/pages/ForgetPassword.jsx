@@ -60,10 +60,9 @@ const Profile = () => {
       });
 
       console.log(result.data);
-
-      setStep(2);
       toast.success(result.data.message || "OTP sent to your email");
       setIsLoading(false);
+      navigate("/login");
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || "Failed to send OTP");
