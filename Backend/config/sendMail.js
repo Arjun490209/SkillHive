@@ -6,14 +6,14 @@ dotenv.config(); // Make sure this is at the top
 // ✅ Create transporter
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,          // Safer for local testing
-  secure: false,      // StartTLS
+  port: 587,
+  secure: false, // startTLS
   auth: {
     user: process.env.USER_EMAIL,
-    pass: process.env.USER_PASS,
+    pass: process.env.USER_PASS, // App password
   },
   tls: {
-    rejectUnauthorized: false, // Prevent TLS errors locally
+    rejectUnauthorized: false,
   },
 });
 
