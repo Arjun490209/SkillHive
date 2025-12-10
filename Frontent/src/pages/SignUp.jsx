@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { CircleLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
+import {signInWithPopup} from 'firebase/auth'
+import{ auth, provider} from '../utils/firebase'
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -42,6 +44,26 @@ const SignUp = () => {
       );
     }
   };
+
+
+const googleSignup = async () => {
+  try {
+    const response = await signInWithPopup(auth, provider);
+    console.log("Google User:", response.user);
+
+    // Agar backend me bhejna ho
+    // await axios.post("/api/auth/google-login", {
+    //   name: response.user.displayName,
+    //   email: response.user.email,
+    //   photo: response.user.photoURL,
+    // });
+
+  } catch (error) {
+    console.log("Google Signin Error:", error);
+  }
+};
+
+
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-blue-200">
@@ -157,7 +179,7 @@ const SignUp = () => {
             </div>
             <div className="w-[25%] h-0.5 bg-[#c4c4c4] "></div>
           </div>
-          <div className="w-[75%] h-10 cursor-pointer flex items-center justify-center rounded-[5px] border border-black">
+          <div className="w-[75%] h-10 cursor-pointer flex items-center justify-center rounded-[5px] border border-black" onClick={googleSignup}>
             <img src={google} alt="Google" className="w-6" />
             <span className="text-[18px] text-gray-600">oogle</span>
           </div>

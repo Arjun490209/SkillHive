@@ -55,15 +55,17 @@ console.log("🔧 GMAIL_PASS length:", process.env.GMAIL_PASS?.length);
 
 // ✅ Environment based config
 if (process.env.NODE_ENV === "production") {
-  // Production → Brevo
   transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
+    host: "smtp-relay.brevo.com",   // ✅ hardcode for Render
+    port: 2525,                     // ✅ Render-safe port
     secure: false,
     auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
+      user: "apikey",               // ✅ Brevo fixed user
+      pass: process.env.SMTP_PASS,  // ✅ only secret from env
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
   });
 } else {
   // Development → Gmail

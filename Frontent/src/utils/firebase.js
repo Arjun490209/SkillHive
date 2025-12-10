@@ -8,9 +8,9 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: import.meta.env.FIREBASE_API_KEY,
-  authDomain: "loginskillhive.firebaseapp.com",
-  projectId: "loginskillhive",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: "loginskillhive.firebasestorage.app",
   messagingSenderId: "258516942746",
   appId: "1:258516942746:web:98e9120d20543aff9b4423"
