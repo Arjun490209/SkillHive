@@ -46,11 +46,11 @@ dotenv.config();
 
 let transporter;
 
-console.log("🔧 NODE_ENV:", process.env.NODE_ENV);
-console.log("🔧 SMTP_USER:", process.env.SMTP_USER);
-console.log("🔧 SMTP_PASS length:", process.env.SMTP_PASS?.length);
-console.log("🔧 GMAIL_USER:", process.env.GMAIL_USER);
-console.log("🔧 GMAIL_PASS length:", process.env.GMAIL_PASS?.length);
+// console.log("🔧 NODE_ENV:", process.env.NODE_ENV);
+// console.log("🔧 SMTP_USER:", process.env.SMTP_USER);
+// console.log("🔧 SMTP_PASS length:", process.env.SMTP_PASS?.length);
+// console.log("🔧 GMAIL_USER:", process.env.GMAIL_USER);
+// console.log("🔧 GMAIL_PASS length:", process.env.GMAIL_PASS?.length);
 
 
 // ✅ Environment based config

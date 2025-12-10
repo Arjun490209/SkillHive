@@ -50,16 +50,23 @@ const googleSignup = async () => {
   try {
     const response = await signInWithPopup(auth, provider);
     console.log("Google User:", response.user);
+    const fName = response.user.displayName;
+    const GEmail = response.user.email;
 
-    // Agar backend me bhejna ho
-    // await axios.post("/api/auth/google-login", {
-    //   name: response.user.displayName,
-    //   email: response.user.email,
-    //   photo: response.user.photoURL,
-    // });
+    const result = await axios.post("/api/auth/googleAuth", {
+      name: fName,
+      email: GEmail,
+      role: role,
+    });
+    dispatch(setUserData(result.data.user));
+    toast.success("Google Signup Successful!");
+    setTimeout(() => {
+      navigate("/");
+    }, 500);
 
+  
   } catch (error) {
-    console.log("Google Signin Error:", error);
+    console.log("Google Signup Error:", error);
   }
 };
 

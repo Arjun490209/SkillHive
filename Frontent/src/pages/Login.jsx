@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { CircleLoader } from "react-spinners";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
+import {signInWithPopup} from 'firebase/auth'
+import{ auth, provider} from '../utils/firebase'
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,6 +37,32 @@ const Login = () => {
         error.response.data.message || "Login Failed. Please try again."
       );
       setIsLoading(false);
+    }
+  };
+
+
+
+  const googleLogin= async () => {
+    try {
+      const response = await signInWithPopup(auth, provider);
+      console.log("Google User:", response.user);
+      const fName = response.user.displayName;
+      const GEmail = response.user.email;
+  
+      const result = await axios.post("/api/auth/googleAuth", {
+        name: fName,
+        email: GEmail,
+        role: "",
+      });
+      dispatch(setUserData(result.data.user));
+      toast.success("Google login Successful!");
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
+  
+    
+    } catch (error) {
+      console.log("Google login Error:", error);
     }
   };
 
@@ -118,7 +146,7 @@ const Login = () => {
             </div>
             <div className="w-[25%] h-0.5 bg-[#c4c4c4] "></div>
           </div>
-          <div className="w-[75%] h-10 cursor-pointer flex items-center justify-center rounded-[5px] border border-black">
+          <div className="w-[75%] h-10 cursor-pointer flex items-center justify-center rounded-[5px] border border-black" onClick={googleLogin}>
             <img src={google} alt="Google" className="w-6" />
             <span className="text-[18px] text-gray-600">oogle</span>
           </div>
