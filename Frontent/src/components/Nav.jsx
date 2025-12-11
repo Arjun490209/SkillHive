@@ -54,7 +54,7 @@ const Nav = () => {
           {/* User Initial (if user logged in) */}
           {userData && (
             <div
-              className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-black text-white rounded-full text-base sm:text-lg cursor-pointer"
+              className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-black text-white rounded-full text-base sm:text-lg cursor-pointer border border-white"
               onClick={() => setShow((prev) => !prev)}
             >
               {userData?.name?.slice(0, 1).toUpperCase()}
@@ -63,7 +63,7 @@ const Nav = () => {
 
           {/* Dashboard Button (only for educator role) */}
           {userData?.role === "educator" && (
-            <div className="hidden sm:block px-3 sm:px-4 py-2 bg-black text-white rounded-lg text-sm sm:text-base cursor-pointer">
+            <div className="hidden sm:block px-3 sm:px-4 py-2 bg-black text-white rounded-lg text-sm sm:text-base cursor-pointer border border-white">
               Dashboard
             </div>
           )}
@@ -100,7 +100,7 @@ const Nav = () => {
 
         {/* ===== Hamburger Icon (Mobile) ===== */}
         <RxHamburgerMenu
-          className="w-7 h-7 lg:hidden fill-black cursor-pointer hover:fill-gray-600 transition-all duration-300"
+          className="w-7 h-7 lg:hidden fill-gray-200 text-gray-200 hover:text-red-500 cursor-pointer hover:fill-gray-600 transition-all duration-300"
           onClick={() => setShowHam((prev) => !prev)}
         />
 
