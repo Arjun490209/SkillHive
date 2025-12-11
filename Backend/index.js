@@ -27,6 +27,8 @@ app.get("/", (req, res) => {
   res.send("API running ...");
 });
 
+app.set("trust proxy", 1)
+
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRoute)
 

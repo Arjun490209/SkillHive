@@ -75,7 +75,7 @@ const Login = () => {
         }}
       >
         {/* left div */}
-        <div className="md:w-[50%] w-[100%] h-[100%] rounded-l-2xl flex flex-col items-center justify-center gap-3">
+        <div className="md:w-[50%] w-full h-full rounded-l-2xl flex flex-col items-center justify-center gap-3">
           <div className="flex flex-col items-center justify-center gap-1">
             <h1 className="font-semibold text-black text-2xl">Welcome Back</h1>
             <h2 className="text-gray-600 text-[18px]">Login in your account</h2>
@@ -165,7 +165,7 @@ const Login = () => {
           </div>
         </div>
         {/* Right div */}
-        <div className="w-[50%] h-[100%] rounded-r-2xl bg-black  md:flex flex-col hidden items-center justify-center ">
+        <div className="w-[50%] h-full rounded-r-2xl bg-black  md:flex flex-col hidden items-center justify-center ">
           <h1 className="text-white text-3xl font-bold mb-5">SkillHive</h1>
         </div>
       </form>

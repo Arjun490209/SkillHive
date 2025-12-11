@@ -8,6 +8,7 @@ import { SiViaplay } from "react-icons/si";
 import searchPng1 from "../assets/ai.png";
 import searchPng2 from "../assets/SearchAi.png";
 import Logos from "../components/Logos";
+import ExploreCourses from "../components/ExploreCourses";
 
 
 const Home = () => {
@@ -55,6 +56,7 @@ const Home = () => {
       
       </div>
       <Logos />
+      <ExploreCourses/>
     </div>
   );
 };

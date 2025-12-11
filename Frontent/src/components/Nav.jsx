@@ -52,12 +52,19 @@ const Nav = () => {
           )}
 
           {/* User Initial (if user logged in) */}
-          {userData && (
+          {userData?.photoUrl ? (
+            <img
+              src={userData.photoUrl}
+              alt=""
+              className="w-10 h-10 rounded-full sm:w-11 sm:h-11 flex items-center justify-center text-base sm:text-lg cursor-pointer border border-white"
+              onClick={()=>setShow(prev=>!prev)}
+            />
+          ) : (
             <div
               className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-black text-white rounded-full text-base sm:text-lg cursor-pointer border border-white"
-              onClick={() => setShow((prev) => !prev)}
+              onClick={()=>setShow(prev=>!prev)}
             >
-              {userData?.name?.slice(0, 1).toUpperCase()}
+              {userData?.name?.slice(0, 1).toUpperCase() || "U"}
             </div>
           )}
 
@@ -71,7 +78,7 @@ const Nav = () => {
           {/* Login / Logout Button */}
           {!userData ? (
             <span
-              className="px-3 sm:px-4 py-2 bg-black text-white rounded-lg text-sm sm:text-base cursor-pointer"
+              className="px-3 sm:px-4 py-2 bg-black text-white border-white border-2 rounded-lg text-sm sm:text-base cursor-pointer"
               onClick={() => navigate("/login")}
             >
               Login
@@ -88,7 +95,12 @@ const Nav = () => {
           {/* ===== Profile Dropdown Menu ===== */}
           {show && (
             <div className="absolute top-[110%] right-[15%] flex flex-col gap-2 text-lg rounded-md bg-white px-4 py-2.5 border-2 border-black transition-all duration-300">
-              <span className="bg-black text-white px-7 py-2.5 rounded-2xl hover:bg-gray-600 cursor-pointer" onClick={()=>{navigate('/profile')}}>
+              <span
+                className="bg-black text-white px-7 py-2.5 rounded-2xl hover:bg-gray-600 cursor-pointer"
+                onClick={() => {
+                  navigate("/profile");
+                }}
+              >
                 My Profile
               </span>
               <span className="bg-black text-white px-7 py-2.5 rounded-2xl hover:bg-gray-600 cursor-pointer">
@@ -127,14 +139,27 @@ const Nav = () => {
           )}
 
           {/* User Initial (if user logged in) */}
-          {userData && (
-            <div className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-black text-white rounded-full text-base sm:text-lg cursor-pointer">
-              {userData?.name?.slice(0, 1).toUpperCase()}
+          {userData?.photoUrl ? (
+            <img
+              src={userData.photoUrl}
+              alt=""
+              className="w-10 h-10 rounded-full sm:w-11 sm:h-11 flex items-center justify-center text-base sm:text-lg cursor-pointer border border-white"
+            />
+          ) : (
+            <div
+              className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-black text-white rounded-full text-base sm:text-lg cursor-pointer border border-white"
+            >
+              {userData?.name?.slice(0, 1).toUpperCase() || "U"}
             </div>
           )}
 
           {/* Profile Menu Items */}
-          <div className="w-52 h-14 flex justify-center items-center bg-black text-white rounded-lg cursor-pointer" onClick={()=>{navigate('/profile')}}>
+          <div
+            className="w-52 h-14 flex justify-center items-center bg-black text-white rounded-lg cursor-pointer"
+            onClick={() => {
+              navigate("/profile");
+            }}
+          >
             My Profile
           </div>
 
