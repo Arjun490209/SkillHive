@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import connectDb from "./config/db.js";
 import authRouter from "./routes/authRoute.js";
 import userRoute from "./routes/userRoute.js";
+import courseRoute from "./routes/courseRoute.js";
 
 dotenv.config();
 const port = process.env.PORT || 8000;
@@ -31,6 +32,7 @@ app.set("trust proxy", 1)
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRoute)
+app.use('/api/course', courseRoute)
 
 app.listen(port, () => {
   console.log(`server run port ${port}`);

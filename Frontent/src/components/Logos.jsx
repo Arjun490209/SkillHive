@@ -15,7 +15,7 @@ const Logos = () => {
   ];
 
   return (
-    <div className="w-full flex justify-center items-center flex-wrap gap-4 md:gap-6 py-6 md:mb-[40px]">
+    <div className="w-full flex justify-center items-center flex-wrap gap-4 md:gap-6 py-6 md:mb-10">
 
       {items.map((item, i) => (
         <div key={i} className="flex items-center gap-3 px-6 py-3 rounded-3xl cursor-pointer bg-[#e8f3f7] shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-[1.05]">
