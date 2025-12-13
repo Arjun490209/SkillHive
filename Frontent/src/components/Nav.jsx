@@ -44,33 +44,40 @@ const Nav = () => {
         {/* ===== Desktop Right Section ===== */}
         <div className="hidden lg:flex items-center gap-2 sm:gap-3 lg:gap-4">
           {/* Profile Icon (if user not logged in) */}
-          {!userData && (
+          {!userData ? (
+            // Guest user
             <IoPersonCircle
               className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 fill-black cursor-pointer"
               onClick={() => setShow((prev) => !prev)}
             />
-          )}
-
-          {/* User Initial (if user logged in) */}
-          {userData?.photoUrl ? (
+          ) : userData.photoUrl ? (
+            // Logged-in user with photo
             <img
               src={userData.photoUrl}
-              alt=""
-              className="w-10 h-10 rounded-full sm:w-11 sm:h-11 flex items-center justify-center text-base sm:text-lg cursor-pointer border border-white"
-              onClick={()=>setShow(prev=>!prev)}
+              alt="User"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full cursor-pointer border border-white"
+              onClick={() => setShow((prev) => !prev)}
             />
           ) : (
+            // Logged-in user without photo
             <div
-              className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-black text-white rounded-full text-base sm:text-lg cursor-pointer border border-white"
-              onClick={()=>setShow(prev=>!prev)}
+              className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center
+               bg-black text-white rounded-full text-base sm:text-lg
+               cursor-pointer border border-white"
+              onClick={() => setShow((prev) => !prev)}
             >
-              {userData?.name?.slice(0, 1).toUpperCase() || "U"}
+              {userData.name?.charAt(0).toUpperCase()}
             </div>
           )}
 
           {/* Dashboard Button (only for educator role) */}
           {userData?.role === "educator" && (
-            <div className="hidden sm:block px-3 sm:px-4 py-2 bg-black text-white rounded-lg text-sm sm:text-base cursor-pointer border border-white" onClick={()=>{navigate('/dashboard')}}>
+            <div
+              className="hidden sm:block px-3 sm:px-4 py-2 bg-black text-white rounded-lg text-sm sm:text-base cursor-pointer border border-white"
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
               Dashboard
             </div>
           )}
@@ -146,9 +153,7 @@ const Nav = () => {
               className="w-10 h-10 rounded-full sm:w-11 sm:h-11 flex items-center justify-center text-base sm:text-lg cursor-pointer border border-white"
             />
           ) : (
-            <div
-              className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-black text-white rounded-full text-base sm:text-lg cursor-pointer border border-white"
-            >
+            <div className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-black text-white rounded-full text-base sm:text-lg cursor-pointer border border-white">
               {userData?.name?.slice(0, 1).toUpperCase() || "U"}
             </div>
           )}
@@ -169,7 +174,12 @@ const Nav = () => {
 
           {/* Dashboard Button (only for educator) */}
           {userData?.role === "educator" && (
-            <div onClick={()=>{navigate('/dashboard')}} className="w-52 h-14 flex justify-center items-center bg-black text-white rounded-lg cursor-pointer">
+            <div
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+              className="w-52 h-14 flex justify-center items-center bg-black text-white rounded-lg cursor-pointer"
+            >
               Dashboard
             </div>
           )}
