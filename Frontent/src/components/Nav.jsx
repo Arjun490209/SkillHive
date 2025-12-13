@@ -70,7 +70,7 @@ const Nav = () => {
 
           {/* Dashboard Button (only for educator role) */}
           {userData?.role === "educator" && (
-            <div className="hidden sm:block px-3 sm:px-4 py-2 bg-black text-white rounded-lg text-sm sm:text-base cursor-pointer border border-white">
+            <div className="hidden sm:block px-3 sm:px-4 py-2 bg-black text-white rounded-lg text-sm sm:text-base cursor-pointer border border-white" onClick={()=>{navigate('/dashboard')}}>
               Dashboard
             </div>
           )}
@@ -169,7 +169,7 @@ const Nav = () => {
 
           {/* Dashboard Button (only for educator) */}
           {userData?.role === "educator" && (
-            <div className="w-52 h-14 flex justify-center items-center bg-black text-white rounded-lg cursor-pointer">
+            <div onClick={()=>{navigate('/dashboard')}} className="w-52 h-14 flex justify-center items-center bg-black text-white rounded-lg cursor-pointer">
               Dashboard
             </div>
           )}
