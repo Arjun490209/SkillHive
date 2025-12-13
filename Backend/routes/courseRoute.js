@@ -12,20 +12,6 @@ import upload from "../middleware/multer.js";
 
 const courseRoute = express.Router();
 
-// courseRoute.post("/create", isAuth, createCourse);
-// courseRoute.get("/get-published", getPublishedCourses);
-// courseRoute.get("/get-creator", isAuth, getCreateCourses);
-// courseRoute.post(
-//   `/edit-course/:userId`,
-//   isAuth,
-//   upload.single("thumbnail"),
-//   editCourse
-// );
-// courseRoute.get('/getCourse/:courseId',isAuth, getCourseById)
-// courseRoute.delete('/remove/:courseId',isAuth, removeCourse)
-
-
-
 //! Create course
 courseRoute.post("/create", isAuth, createCourse);
 
