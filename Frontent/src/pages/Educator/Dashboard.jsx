@@ -44,7 +44,7 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto">
         {/* Back Button */}
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
           className="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition font-semibold mb-6 text-lg"
           title="Go to home"
         >
