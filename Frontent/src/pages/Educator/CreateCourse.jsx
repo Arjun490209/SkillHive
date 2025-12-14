@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { MdArrowBack } from "react-icons/md";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
+import {ClipLoader} from 'react-spinners'
 
 const CreateCourse = () => {
   const navigate = useNavigate();
@@ -125,7 +126,7 @@ const CreateCourse = () => {
               disabled={loading}
               className="w-full mt-4 py-2.5 sm:py-3 text-sm sm:text-base font-semibold flex justify-center items-center bg-black text-white border border-black rounded-md hover:bg-white hover:text-black transition disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {loading ? "Creating Course..." : "Create Course"}
+              {loading ? <ClipLoader size={22} color="white"/> : "Create Course"}
             </button>
           </form>
         </div>
