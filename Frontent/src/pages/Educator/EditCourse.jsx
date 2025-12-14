@@ -30,7 +30,7 @@ const EditCourse = () => {
         <h2 className="text-lg font-medium mb-4">Basic Course Information</h2>
         <div className="space-x-2 space-y-2">
           <button className="bg-green-100 text-green-600 px-4 py-2 rounded-md border">Click to Published</button>
-          <button className="bg-green-100 text-green-600 px-4 py-2 rounded-md border">Remove Course</button>
+          <button className="bg-red-600 text-white px-4 py-2 rounded-md border">Remove Course</button>
         </div>
       </div>
     </div>
