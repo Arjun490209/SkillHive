@@ -90,10 +90,7 @@ const CreateCourse = () => {
                 onChange={handleChange}
                 required
                 placeholder="Enter course title"
-                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 
-                           border border-gray-300 rounded-md
-                           focus:ring-2 focus:ring-black focus:border-black
-                           outline-none text-sm sm:text-base transition"
+                className="w-full px-3 py-2.5 sm:px-4 sm:py-3 border border-gray-300 rounded-md focus:ring-2  focus:ring-black focus:border-black outline-none text-sm sm:text-base transition"
               />
             </div>
 

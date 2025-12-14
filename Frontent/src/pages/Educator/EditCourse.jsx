@@ -1,9 +1,49 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import img from "../../assets/empty.jpg";
+import { FiEdit } from "react-icons/fi";
+import axios from "../../utils/axios";
 
 const EditCourse = () => {
+  const thumb = useRef();
+  const { courseId } = useParams();
+  const [isPublished, setIsPublished] = useState(true);
   const navigate = useNavigate();
+  const [selectCourseData, setSelectCourseData] = useState(null);
+  const [title, setTitel] = useState("");
+  const [subTitle, setSubTitel] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [level, setLevel] = useState("");
+  const [price, setPrice] = useState("");
+  const [frontendImage, setFrontendImage] = useState(img);
+  const [backendImage, setBackendImage] = useState(null);
+
+  const handleThumbnail = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    setBackendImage(file);
+    setFrontendImage(URL.createObjectURL(file));
+  };
+
+  const getCourseById = async () => {
+    try {
+      const result = await axios.get(`/api/course/get-course/${courseId}`);
+      setSelectCourseData(result.data);
+      console.log(result.data);
+    } catch (error) {
+      console.log(error.response?.data || error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (courseId) {
+      getCourseById();
+    }
+  }, [courseId]);
+
   return (
     <div className="max-w-5xl mx-auto p-6 mt-10 bg-white rounded-lg shadow-md">
       {/* top bar */}
@@ -29,9 +69,199 @@ const EditCourse = () => {
       <div className="bg-gray-50 p-6 rounded-md">
         <h2 className="text-lg font-medium mb-4">Basic Course Information</h2>
         <div className="space-x-2 space-y-2">
-          <button className="bg-green-100 text-green-600 px-4 py-2 rounded-md border">Click to Published</button>
-          <button className="bg-red-600 text-white px-4 py-2 rounded-md border">Remove Course</button>
+          {isPublished ? (
+            <button
+              className="bg-green-100 text-green-600 px-4 py-2 rounded-md border"
+              onClick={() => {
+                setIsPublished((prev) => !prev);
+              }}
+            >
+              Click to Published
+            </button>
+          ) : (
+            <button
+              className="bg-red-100 text-red-600 px-4 py-2 rounded-md border"
+              onClick={() => {
+                setIsPublished((prev) => !prev);
+              }}
+            >
+              {" "}
+              Click to Unpublished
+            </button>
+          )}
+          <button className="bg-red-600 text-white px-4 py-2 rounded-md border">
+            Remove Course
+          </button>
         </div>
+
+        <form
+          action=""
+          className="space-y-6"
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <div>
+            <label
+              htmlFor="title"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Title
+            </label>
+            <input
+              type="text"
+              name=""
+              id="title"
+              className="w-full px-4 py-2 rounded-md border"
+              placeholder="Course Title"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="subTitle"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Sub Title
+            </label>
+            <input
+              type="text"
+              name=""
+              id="subTitle"
+              className="w-full px-4 py-2 rounded-md border"
+              placeholder="Course Sub Title"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="description"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Description
+            </label>
+            <textarea
+              type="text"
+              name=""
+              id="description"
+              className="w-full px-4 py-2 rounded-md border h-24 resize-none"
+              placeholder="Course Description"
+            ></textarea>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+            {/*for category */}
+            <div className="flex-1">
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                {" "}
+                Course Category
+              </label>
+              <select
+                name=""
+                id="category"
+                className="w-full px-4 py-2 rounded-md border"
+              >
+                <option value="" disabled selected>
+                  Select a category
+                </option>
+                <option value="Web Development">Web Development</option>
+                <option value="UI/UX Design">UI/UX Design</option>
+                <option value="Data Science">Data Science</option>
+                <option value="App Development">App Development</option>
+                <option value="Ethical Hacking">Ethical Hacking</option>
+                <option value="AI/ML">AI/ML</option>
+                <option value="Data Analytics">Data Analytics</option>
+                <option value="AI Tools">AI Tools</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            {/*for Level */}
+            <div className="flex-1">
+              <label
+                htmlFor="level"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                {" "}
+                Course Level
+              </label>
+              <select
+                name=""
+                id="level"
+                className="w-full px-4 py-2 rounded-md border"
+              >
+                <option value="" disabled selected>
+                  Select a Level
+                </option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
+
+            {/*for Price */}
+            <div className="flex-1">
+              <label
+                htmlFor="price"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                {" "}
+                Course Price (INR)
+              </label>
+              <input
+                type="number"
+                name=""
+                id="price"
+                className="w-full px-4 py-2 rounded-md border"
+                placeholder="Course Price"
+              />
+            </div>
+          </div>
+
+          {/* Thumbnail */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Course Thumbnail
+            </label>
+
+            <input
+              type="file"
+              hidden
+              ref={thumb}
+              accept="image/*"
+              onChange={handleThumbnail}
+            />
+          </div>
+
+          <div className="relative w-[300px] h-[170px]">
+            <img
+              src={frontendImage}
+              alt="thumbnail"
+              className="w-full h-full border bg-black rounded-[5px] cursor-pointer"
+              onClick={() => thumb.current.click()}
+            />
+            <FiEdit
+              className="w-5 h-5 absolute top-2 right-2 hover:text-green-500"
+              onClick={() => thumb.current.click()}
+            />
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 font-medium transition-all duration-200 hover:bg-red-50 hover:text-red-600 hover:border-red-300 active:scale-95"
+            >
+              Cancel
+            </button>
+
+            <button className="px-8 py-2.5 rounded-lg bg-gradient-to-r from-black to-gray-800 text-white font-medium shadow-md transition-all duration-200 hover:from-gray-800 hover:to-black hover:shadow-lg active:scale-95">
+              Save
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
