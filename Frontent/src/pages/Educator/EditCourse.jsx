@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import img from "../../assets/empty.jpg";
 import { FiEdit } from "react-icons/fi";
 import axios from "../../utils/axios";
+import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
 
 const EditCourse = () => {
   const thumb = useRef();
@@ -19,6 +21,7 @@ const EditCourse = () => {
   const [price, setPrice] = useState("");
   const [frontendImage, setFrontendImage] = useState(img);
   const [backendImage, setBackendImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleThumbnail = (e) => {
     const file = e.target.files[0];
@@ -39,10 +42,60 @@ const EditCourse = () => {
   };
 
   useEffect(() => {
+    if (selectCourseData) {
+      setTitle(selectCourseData.title || "");
+      setSubTitle(selectCourseData.subTitle || "");
+      setDescription(selectCourseData.description || "");
+      setCategory(selectCourseData.category || "");
+      setLevel(selectCourseData.level || "");
+      setPrice(selectCourseData.price || "");
+      setFrontendImage(selectCourseData.thumbnail || img);
+      setIsPublished(!!selectCourseData.isPublished);
+    }
+  }, [selectCourseData]);
+
+  useEffect(() => {
     if (courseId) {
       getCourseById();
     }
   }, [courseId]);
+
+  const handleEditCourse = async () => {
+    try {
+      setIsLoading(true);
+
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("subTitle", subTitle);
+      formData.append("description", description);
+      formData.append("category", category);
+      formData.append("level", level);
+      formData.append("price", price);
+      formData.append("isPublished", isPublished ? "true" : "false");
+
+      if (backendImage) {
+        formData.append("thumbnail", backendImage);
+      }
+
+      const result = await axios.put(
+        `/api/course/edit-course/${courseId}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(result.data)
+      toast.success("Course Updated Successfully");
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Course Update Error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="max-w-5xl mx-auto p-6 mt-10 bg-white rounded-lg shadow-md">
@@ -178,7 +231,7 @@ const EditCourse = () => {
                 value={category}
                 className="w-full px-4 py-2 rounded-md border"
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Select a category
                 </option>
                 <option value="Web Development">Web Development</option>
@@ -211,7 +264,7 @@ const EditCourse = () => {
                 value={level}
                 className="w-full px-4 py-2 rounded-md border"
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Select a Level
                 </option>
                 <option value="Beginner">Beginner</option>
@@ -279,8 +332,13 @@ const EditCourse = () => {
               Cancel
             </button>
 
-            <button className="px-8 py-2.5 rounded-lg bg-gradient-to-r from-black to-gray-800 text-white font-medium shadow-md transition-all duration-200 hover:from-gray-800 hover:to-black hover:shadow-lg active:scale-95">
-              Save
+            <button
+              type="button"
+              className="px-8 py-2.5 rounded-lg bg-gradient-to-r from-black to-gray-800 text-white font-medium shadow-md transition-all duration-200 hover:from-gray-800 hover:to-black hover:shadow-lg active:scale-95"
+              onClick={handleEditCourse}
+              disabled={isLoading}
+            >
+              {isLoading ? <ClipLoader size={30} color="white" /> : "Save"}
             </button>
           </div>
         </form>

@@ -9,9 +9,11 @@ import { setCreatorCourseData } from "../../redux/courseSlice";
 
 const Courses = () => {
   const navigate = useNavigate();
-  const {userData} = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const { userData } = useSelector((state) => state.user);
   const { creatorCourseData } = useSelector((state) => state.course);
-const dispatch = useDispatch()
+
   useEffect(() => {
     const creatorCourses = async () => {
       try {
@@ -27,14 +29,13 @@ const dispatch = useDispatch()
     }
   }, [userData, dispatch]);
 
-
   return (
     <div className="w-full min-h-screen bg-gray-50 p-4 sm:p-6 md:p-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <button
-            onClick={() => {navigate(-1)}}
+            onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-gray-700 hover:text-gray-900 font-semibold text-lg"
           >
             <MdArrowBack size={24} />
@@ -58,82 +59,142 @@ const dispatch = useDispatch()
           <p className="text-gray-600 mt-2">Manage and edit your courses</p>
         </div>
 
-        {/* Table */}
+        {/* Content */}
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
           {creatorCourseData?.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-100 border-b">
-                  <tr>
-                    <th className="px-6 py-3 text-left">Course</th>
-                    <th className="px-6 py-3 text-left">Category</th>
-                    <th className="px-6 py-3 text-left">Price</th>
-                    <th className="px-6 py-3 text-left">Status</th>
-                    <th className="px-6 py-3 text-center">Action</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {creatorCourseData.map((course, index) => (
-                    <tr
-                      key={course._id}
-                      className={`border-b ${
-                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                      }`}
-                    >
-                      {/* Course Title */}
-                      <td className="px-6 py-4">
-                        <div className="flex items-center gap-4">
-                          <img
-                            src={course.thumbnail || img}
-                            alt={course.title}
-                            className="w-24 h-16 object-cover rounded-md"
-                          />
-                          <span className="font-medium text-gray-800">
-                            {course.title}
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Category */}
-                      <td className="px-6 py-4 text-gray-700">
-                        {course.category || "NA"}
-                      </td>
-
-                      {/* Price */}
-                      <td className="px-6 py-4 text-gray-700">
-                        {course.price !== undefined && course.price !== null
-                          ? `₹${course.price}`
-                          : "NA"}
-                      </td>
-
-                      {/* Status */}
-                      <td className="px-6 py-4">
-                        <span
-                          className={`px-3 py-1 rounded-full text-sm font-semibold ${
-                            course.isPublished
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {course.isPublished ? "✓ Published" : "✗ Draft"}
-                        </span>
-                      </td>
-
-                      {/* Action */}
-                      <td className="px-6 py-4 text-center">
-                        <button
-                          onClick={() => {navigate(`/edit-course/${course?._id}`)}}
-                          className="w-10 h-10 inline-flex items-center justify-center rounded-full hover:bg-blue-100 text-blue-600"
-                        >
-                          <FiEdit size={20} />
-                        </button>
-                      </td>
+            <>
+              {/* ================= DESKTOP TABLE ================= */}
+              <div className="hidden md:block overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-100 border-b">
+                    <tr>
+                      <th className="px-6 py-3 text-left">Course</th>
+                      <th className="px-6 py-3 text-left">Category</th>
+                      <th className="px-6 py-3 text-left">Price</th>
+                      <th className="px-6 py-3 text-left">Status</th>
+                      <th className="px-6 py-3 text-center">Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+
+                  <tbody>
+                    {creatorCourseData.map((course, index) => (
+                      <tr
+                        key={course._id}
+                        className={`border-b ${
+                          index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                        }`}
+                      >
+                        {/* Course */}
+                        <td className="px-6 py-4">
+                          <div className="flex items-center gap-4">
+                            <img
+                              src={course.thumbnail || img}
+                              alt={course.title}
+                              className="w-24 h-16 object-cover rounded-md"
+                            />
+                            <span className="font-medium text-gray-800">
+                              {course.title}
+                            </span>
+                          </div>
+                        </td>
+
+                        {/* Category */}
+                        <td className="px-6 py-4 text-gray-700">
+                          {course.category || "NA"}
+                        </td>
+
+                        {/* Price */}
+                        <td className="px-6 py-4 text-gray-700">
+                          {course.price !== undefined && course.price !== null
+                            ? `₹${course.price}`
+                            : "Free"}
+                        </td>
+
+                        {/* Status */}
+                        <td className="px-6 py-4">
+                          <span
+                            className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                              course.isPublished
+                                ? "bg-green-100 text-green-800"
+                                : "bg-red-100 text-red-800"
+                            }`}
+                          >
+                            {course.isPublished ? "Published" : "Draft"}
+                          </span>
+                        </td>
+
+                        {/* Action */}
+                        <td className="px-6 py-4 text-center">
+                          <button
+                            onClick={() =>
+                              navigate(`/edit-course/${course._id}`)
+                            }
+                            className="w-10 h-10 inline-flex items-center justify-center rounded-full hover:bg-blue-100 text-blue-600"
+                          >
+                            <FiEdit size={20} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* ================= MOBILE CARDS ================= */}
+              <div className="md:hidden p-4 space-y-4">
+                {creatorCourseData.map((course) => (
+                  <div
+                    key={course._id}
+                    className="bg-white border rounded-lg shadow-sm p-4 space-y-3"
+                  >
+                    {/* Thumbnail + Title */}
+                    <div className="flex gap-3">
+                      <img
+                        src={course.thumbnail || img}
+                        alt={course.title}
+                        className="w-20 h-14 rounded object-cover"
+                      />
+                      <div>
+                        <h3 className="font-semibold text-gray-800 line-clamp-2">
+                          {course.title}
+                        </h3>
+                        <p className="text-sm text-gray-500">
+                          {course.category || "NA"}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Price & Status */}
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="font-medium">
+                        {course.price ? `₹${course.price}` : "Free"}
+                      </span>
+
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                          course.isPublished
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {course.isPublished ? "Published" : "Draft"}
+                      </span>
+                    </div>
+
+                    {/* Action */}
+                    <button
+                      onClick={() =>
+                        navigate(`/edit-course/${course._id}`)
+                      }
+                      className="w-full flex items-center justify-center gap-2 border rounded-md py-2 text-blue-600 hover:bg-blue-50"
+                    >
+                      <FiEdit size={18} />
+                      Edit Course
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </>
           ) : (
             <div className="py-12 text-center text-gray-500">
               <p className="mb-4 text-lg">No courses created</p>
