@@ -11,8 +11,8 @@ const EditCourse = () => {
   const [isPublished, setIsPublished] = useState(true);
   const navigate = useNavigate();
   const [selectCourseData, setSelectCourseData] = useState(null);
-  const [title, setTitel] = useState("");
-  const [subTitle, setSubTitel] = useState("");
+  const [title, setTitle] = useState("");
+  const [subTitle, setSubTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [level, setLevel] = useState("");
@@ -72,27 +72,25 @@ const EditCourse = () => {
           {isPublished ? (
             <button
               className="bg-green-100 text-green-600 px-4 py-2 rounded-md border"
-              onClick={() => {
-                setIsPublished((prev) => !prev);
-              }}
+              onClick={() => setIsPublished(false)}
             >
-              Click to Published
+              Published (Click to Unpublish)
             </button>
           ) : (
             <button
               className="bg-red-100 text-red-600 px-4 py-2 rounded-md border"
-              onClick={() => {
-                setIsPublished((prev) => !prev);
-              }}
+              onClick={() => setIsPublished(true)}
             >
-              {" "}
-              Click to Unpublished
+              Unpublished (Click to Publish)
             </button>
           )}
+
           <button className="bg-red-600 text-white px-4 py-2 rounded-md border">
             Remove Course
           </button>
         </div>
+
+        {/* Form Start  */}
 
         <form
           action=""
@@ -112,6 +110,10 @@ const EditCourse = () => {
               type="text"
               name=""
               id="title"
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+              value={title}
               className="w-full px-4 py-2 rounded-md border"
               placeholder="Course Title"
             />
@@ -128,6 +130,10 @@ const EditCourse = () => {
               type="text"
               name=""
               id="subTitle"
+              onChange={(e) => {
+                setSubTitle(e.target.value);
+              }}
+              value={subTitle}
               className="w-full px-4 py-2 rounded-md border"
               placeholder="Course Sub Title"
             />
@@ -144,6 +150,10 @@ const EditCourse = () => {
               type="text"
               name=""
               id="description"
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+              value={description}
               className="w-full px-4 py-2 rounded-md border h-24 resize-none"
               placeholder="Course Description"
             ></textarea>
@@ -162,6 +172,10 @@ const EditCourse = () => {
               <select
                 name=""
                 id="category"
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                }}
+                value={category}
                 className="w-full px-4 py-2 rounded-md border"
               >
                 <option value="" disabled selected>
@@ -191,6 +205,10 @@ const EditCourse = () => {
               <select
                 name=""
                 id="level"
+                onChange={(e) => {
+                  setLevel(e.target.value);
+                }}
+                value={level}
                 className="w-full px-4 py-2 rounded-md border"
               >
                 <option value="" disabled selected>
@@ -214,6 +232,10 @@ const EditCourse = () => {
               <input
                 type="number"
                 name=""
+                onChange={(e) => {
+                  setPrice(e.target.value);
+                }}
+                value={price}
                 id="price"
                 className="w-full px-4 py-2 rounded-md border"
                 placeholder="Course Price"
