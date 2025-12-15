@@ -15,6 +15,7 @@ import EditCourse from './pages/Educator/EditCourse'
 import CreateCourse from './pages/Educator/CreateCourse'
 import getCreatorCourses from './costumHooks/getCreatorCourse'
 import useGetPublishedCourse from './costumHooks/useGetPublishedCourse'
+import AllCourses from './pages/AllCourses'
 
 const App = () => {
   getCurrentUser()
@@ -33,6 +34,7 @@ const App = () => {
       <Route path='/profile' element={userData ?<Profile/> : <Navigate to={'/signup'} />}/>
       <Route path='/forget-password' element={userData ?<ForgetPassword/> : <Navigate to={'/signup'} />}/>
       <Route path='/edit-profile' element={userData ?<EditProfile/> : <Navigate to={'/signup'} />}/>
+      <Route path='/all-courses' element={userData ?<AllCourses/> : <Navigate to={'/signup'} />}/>
 
       {/* Course Route */}
       <Route path='/dashboard' element={userData?.role === "educator" ? <Dashboard/>:  <Navigate to={'/signup'} /> }/>

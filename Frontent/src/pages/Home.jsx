@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Nav from "../components/Nav";
 import home from "../assets/home1.jpg";
 import { SiViaplay } from "react-icons/si";
@@ -12,6 +12,7 @@ import Footer from "../components/Footer";
 
 
 const Home = () => {
+const navigate = useNavigate()
   return (
     <div className="w-full overflow-hidden">
       {/* Hero Section */}
@@ -35,7 +36,7 @@ const Home = () => {
         {/* Buttons */}
         <div className="absolute top-[75%] md:top-[80%] lg:top-[30%] w-full flex justify-center items-center gap-3 flex-wrap">
           {/* Button 1 */}
-          <button className="px-5 py-2.5 border-2 border-black lg:border-white bg-white lg:bg-black text-black lg:text-white text-lg font-light flex gap-2 items-center rounded-lg cursor-pointer">
+          <button className="px-5 py-2.5 border-2 border-black lg:border-white bg-white lg:bg-black text-black lg:text-white text-lg font-light flex gap-2 items-center rounded-lg cursor-pointer" onClick={()=>{navigate("/all-courses")}}>
             View All Courses
             <SiViaplay className="w-7 h-7 fill-black lg:fill-white" />
           </button>
