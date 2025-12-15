@@ -8,6 +8,8 @@ import searchPng2 from "../assets/SearchAi.png";
 import Logos from "../components/Logos";
 import ExploreCourses from "../components/ExploreCourses";
 import CardPage from "../components/CardPage";
+import Footer from "../components/Footer";
+
 
 const Home = () => {
   return (
@@ -62,6 +64,8 @@ const Home = () => {
       <ExploreCourses />
 
       <CardPage />
+
+      <Footer/>
     </div>
   );
 };

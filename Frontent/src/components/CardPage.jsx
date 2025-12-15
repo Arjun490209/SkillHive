@@ -3,25 +3,30 @@ import { useSelector } from "react-redux";
 import Card from "./Card";
 
 const CardPage = () => {
-  const { courseData} = useSelector((state) => state.course);
+  const { courseData } = useSelector((state) => state.course);
+
   const [popularCourses, setPopularCourses] = useState([]);
 
   useEffect(() => {
-    setPopularCourses(courseData.slice(0, 6));
+    if (Array.isArray(courseData)) {
+      setPopularCourses(courseData.slice(0, 6));
+    }
   }, [courseData]);
 
   return (
-    <div className="relative flex items-center justify-center flex-col">
-      <h1 className="md:text-[45px] text-[30px] font-semibold text-center mt-[30px] px-5">
+    <section className="w-full px-4 sm:px-6 lg:px-10 py-10">
+      {/* Heading */}
+      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[45px] font-semibold text-center">
         Our Popular Courses
       </h1>
 
-      <span className="lg:w-1/2 md:w-[80%] text-[15px] text-center mt-[30px] mb-[30px] px-5">
-        Explore top-rated courses designed to boost your skills, enhance careers,
-        and unlock opportunities in tech, AI, business and beyond.
-      </span>
+      <p className="max-w-3xl mx-auto text-sm sm:text-base text-center mt-4 mb-10 text-gray-600">
+        Explore top-rated courses designed to boost your skills, enhance
+        careers, and unlock opportunities in tech, AI, business and beyond.
+      </p>
 
-      <div className="w-full min-h-screen flex items-center justify-center flex-wrap gap-[50px] lg:p-[50px] md:p-[30px] p-2.5 mb-10">
+      {/* Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center">
         {popularCourses.map((course) => (
           <Card
             key={course._id}
@@ -33,7 +38,7 @@ const CardPage = () => {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

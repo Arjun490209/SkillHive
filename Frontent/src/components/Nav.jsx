@@ -47,7 +47,7 @@ const Nav = () => {
           {!userData ? (
             // Guest user
             <IoPersonCircle
-              className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 fill-black cursor-pointer"
+              className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 fill-white cursor-pointer"
               onClick={() => setShow((prev) => !prev)}
             />
           ) : userData.photoUrl ? (
