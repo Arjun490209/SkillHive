@@ -6,6 +6,8 @@ import { FiEdit } from "react-icons/fi";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { useDispatch, useSelector } from "react-redux";
+import {setCourseData} from '../../redux/courseSlice'
 
 const EditCourse = () => {
   const thumb = useRef();
@@ -23,6 +25,8 @@ const EditCourse = () => {
   const [backendImage, setBackendImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoading1, setIsLoading1] = useState(false);
+  const dispatch = useDispatch()
+  const {courseData} = useSelector(state=>state.course)
 
   const handleThumbnail = (e) => {
     const file = e.target.files[0];
@@ -87,6 +91,19 @@ const EditCourse = () => {
         }
       );
       console.log(result.data);
+      const updateData = result.data
+      if(updateData.isPublished){
+        const updateCourses = courseData.map(c => c._id === courseId ? updateData : c)
+        if(!courseData.some(c=> c._id === courseId)){
+          updateCourses.push(updateData)
+        }
+        dispatch(setCourseData(updateCourses))
+      }else{
+        const filterCourse = courseData.filter(c => c._id !== courseId)
+        dispatch(setCourseData(filterCourse))
+      }
+
+
       toast.success("Course Updated Successfully");
       navigate(-1);
     } catch (error) {
@@ -103,7 +120,8 @@ const EditCourse = () => {
 
       const result = await axios.delete(`/api/course/remove/${courseId}`);
       console.log(result.data);
-
+      const filterCourse = courseData.filter(c => c._id !== courseId)
+      dispatch(setCourseData(filterCourse))
       toast.success("Course deleted successfully");
       navigate(-1);
     } catch (error) {

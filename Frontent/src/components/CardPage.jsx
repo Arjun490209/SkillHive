@@ -27,7 +27,7 @@ const CardPage = () => {
 
       {/* Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center">
-        {popularCourses.map((course) => (
+        {popularCourses?.map((course) => (
           <Card
             key={course._id}
             thumbnail={course.thumbnail}
