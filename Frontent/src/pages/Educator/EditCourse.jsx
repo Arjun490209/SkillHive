@@ -22,6 +22,7 @@ const EditCourse = () => {
   const [frontendImage, setFrontendImage] = useState(img);
   const [backendImage, setBackendImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoading1, setIsLoading1] = useState(false);
 
   const handleThumbnail = (e) => {
     const file = e.target.files[0];
@@ -35,7 +36,6 @@ const EditCourse = () => {
     try {
       const result = await axios.get(`/api/course/get-course/${courseId}`);
       setSelectCourseData(result.data);
-      console.log(result.data);
     } catch (error) {
       console.log(error.response?.data || error.message);
     }
@@ -86,7 +86,7 @@ const EditCourse = () => {
           },
         }
       );
-      console.log(result.data)
+      console.log(result.data);
       toast.success("Course Updated Successfully");
       navigate(-1);
     } catch (error) {
@@ -94,6 +94,23 @@ const EditCourse = () => {
       toast.error(error?.response?.data?.message || "Course Update Error");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const removeCourse = async () => {
+    try {
+      setIsLoading1(true);
+
+      const result = await axios.delete(`/api/course/remove/${courseId}`);
+      console.log(result.data);
+
+      toast.success("Course deleted successfully");
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || "Failed to delete course");
+    } finally {
+      setIsLoading1(false);
     }
   };
 
@@ -138,8 +155,16 @@ const EditCourse = () => {
             </button>
           )}
 
-          <button className="bg-red-600 text-white px-4 py-2 rounded-md border">
-            Remove Course
+          <button
+            className="bg-red-600 text-white px-4 py-2 rounded-md border"
+            disabled={isLoading1}
+            onClick={removeCourse}
+          >
+            {isLoading1 ? (
+              <ClipLoader size={22} color="white" />
+            ) : (
+              "Remove Course"
+            )}
           </button>
         </div>
 

@@ -39,7 +39,6 @@ const CreateCourse = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      console.log("Course Data:", formData);
       const result = await axios.post('api/course/create', formData)
       console.log(result.data)
       

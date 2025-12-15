@@ -7,6 +7,7 @@ import searchPng1 from "../assets/ai.png";
 import searchPng2 from "../assets/SearchAi.png";
 import Logos from "../components/Logos";
 import ExploreCourses from "../components/ExploreCourses";
+import CardPage from "../components/CardPage";
 
 const Home = () => {
   return (
@@ -59,6 +60,8 @@ const Home = () => {
 
       {/* Course Section */}
       <ExploreCourses />
+
+      <CardPage />
     </div>
   );
 };
