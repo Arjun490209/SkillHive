@@ -46,12 +46,12 @@ const AllCourses = () => {
 
   return (
     <div className="min-h-screen w-full bg-gray-50">
-      {/* ================= NAVBAR ================= */}
+      {/* NAVBAR */}
       <div className="fixed top-0 left-0 w-full h-16 z-50">
         <Nav />
       </div>
 
-      {/* ================= MOBILE MENU BUTTON ================= */}
+      {/* MOBILE MENU BUTTON */}
       <button
         onClick={() => setOpen(true)}
         className="lg:hidden fixed top-20 left-4 z-50 bg-black text-white p-2 rounded-md shadow"
@@ -59,9 +59,8 @@ const AllCourses = () => {
         <FiMenu size={22} />
       </button>
 
-      {/* ================= LAYOUT ================= */}
       <div className="flex pt-16 h-[calc(100vh-64px)]">
-        {/* Overlay (mobile) */}
+        {/* Overlay */}
         {open && (
           <div
             onClick={() => setOpen(false)}
@@ -69,7 +68,7 @@ const AllCourses = () => {
           />
         )}
 
-        {/* ================= SIDEBAR ================= */}
+        {/* SIDEBAR */}
         <aside
           className={`fixed lg:relative top-0 left-0 z-50
             w-[260px] h-full
@@ -78,7 +77,6 @@ const AllCourses = () => {
             ${open ? "translate-x-0" : "-translate-x-full"}
             lg:translate-x-0`}
         >
-          {/* Close button */}
           <button
             onClick={() => setOpen(false)}
             className="lg:hidden absolute top-4 right-4"
@@ -86,13 +84,11 @@ const AllCourses = () => {
             <FiX size={24} />
           </button>
 
-          {/* AI Button */}
           <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition mb-6 w-full justify-center mt-10 lg:mt-0">
             Search with AI
             <img src={ai} alt="AI" className="w-5 h-5 rounded-full" />
           </button>
 
-          {/* Categories */}
           <h3 className="text-lg font-semibold mb-4">Categories</h3>
           <form className="space-y-3">
             {categories.map((item) => (
@@ -113,10 +109,10 @@ const AllCourses = () => {
           </form>
         </aside>
 
-        {/* ================= MAIN CONTENT ================= */}
+        {/* MAIN CONTENT */}
         <main className="flex-1 flex flex-col overflow-hidden">
-          {/* Sticky Header */}
-          <div className="flex items-center gap-3 p-4 sm:p-6 bg-gray-50 border-b border-gray-200 flex-shrink-0">
+          {/* Header */}
+          <div className="flex items-center gap-3 p-4 sm:p-6 bg-gray-50 border-b border-gray-200">
             <button
               onClick={() => navigate("/")}
               className="text-gray-600 hover:text-black transition"
@@ -128,9 +124,16 @@ const AllCourses = () => {
             </h2>
           </div>
 
-          {/* Scrollable Content */}
+          {/* CONTENT */}
           <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div
+              className="
+                max-w-7xl mx-auto
+                grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+                gap-6
+                place-items-center sm:place-items-stretch
+              "
+            >
               {filterCourse.length > 0 ? (
                 filterCourse.map((course) => (
                   <Card
