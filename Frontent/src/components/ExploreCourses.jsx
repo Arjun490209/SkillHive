@@ -7,8 +7,10 @@ import { FaDatabase } from "react-icons/fa";
 import { MdAppShortcut } from "react-icons/md";
 import { SiOpenai, SiGoogledataproc } from "react-icons/si";
 import { AiOutlineOpenAI } from "react-icons/ai";
+import {useNavigate} from 'react-router-dom'
 
 const ExploreCourses = () => {
+  const navigate = useNavigate()
   const cards = [
     {
       icon: <TbDeviceDesktopAnalytics className="w-8 h-8 text-[#444]" />,
@@ -65,7 +67,7 @@ const ExploreCourses = () => {
           in the tech world.
         </p>
 
-        <button className="px-6 py-3 border-2 bg-black text-white rounded-xl text-[17px] font-light flex items-center gap-2 mt-8 cursor-pointer hover:bg-gray-900 transition-all duration-200">
+        <button className="px-6 py-3 border-2 bg-black text-white rounded-xl text-[17px] font-light flex items-center gap-2 mt-8 cursor-pointer hover:bg-gray-900 transition-all duration-200" onClick={()=>{navigate("/all-courses")}}>
           Explore Courses <SiViaplay className="w-6 h-6" />
         </button>
       </div>
