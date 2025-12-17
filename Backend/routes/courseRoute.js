@@ -2,38 +2,42 @@ import express from "express";
 import isAuth from "../middleware/isAuth.js";
 import {
   createCourse,
+  createLecture,
   editCourse,
+  editLecture,
   getCourseById,
+  getCourseLecture,
   getCreateCourses,
   getPublishedCourses,
   removeCourse,
+  removeLecture,
 } from "../controllers/courseController.js";
 import upload from "../middleware/multer.js";
 
 const courseRoute = express.Router();
 
-//! Create course
+// ! For Courses
 courseRoute.post("/create", isAuth, createCourse);
-
-//! Get published courses
 courseRoute.get("/get-published", getPublishedCourses);
-
-//! Get courses created by logged-in user
 courseRoute.get("/my-courses", isAuth, getCreateCourses);
-
-//! Edit course (PUT recommended)
 courseRoute.put(
   "/edit-course/:courseId",
   isAuth,
   upload.single("thumbnail"),
   editCourse
 );
-
-// !Get single course
 courseRoute.get("/get-course/:courseId", isAuth, getCourseById);
-
-// !Delete course
 courseRoute.delete("/remove/:courseId", isAuth, removeCourse);
 
+// ! for Lectures
+courseRoute.post("/create-lecture/:courseId", isAuth, createLecture);
+courseRoute.get("/course-lecture/:courseId", isAuth, getCourseLecture);
+courseRoute.post(
+  "/edit-lecture/:lectureId",
+  isAuth,
+  upload.single("videoUrl"),
+  editLecture
+);
+courseRoute.delete("remove-lecture/:lectureId", isAuth, removeLecture);
 
 export default courseRoute;
