@@ -1,6 +1,6 @@
-import { Course, Lecture } from "../models/CourseModel.js";
+import Course from "../models/CourseModel.js";
+import Lecture from "../models/LectureModel.js";
 import uploadOnCloudinary from "../config/cloudinary.js";
-import { count } from "console";
 
 // Create Course
 export const createCourse = async (req, res) => {
