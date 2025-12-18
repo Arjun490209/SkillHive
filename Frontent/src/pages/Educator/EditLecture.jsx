@@ -49,7 +49,7 @@ const EditLecture = () => {
       const result = await axios.delete(
         `/api/course/remove-lecture/${lectureId}`
       );
-      console.log(result.data)
+      console.log(result.data);
       toast.success(result.data?.message || "Lecture Removed Successfully");
       navigate(`/create-lecture/${courseId}`);
     } catch (error) {
@@ -126,6 +126,7 @@ const EditLecture = () => {
               Is this Video FREE
             </label>
           </div>
+          <p>{loading ? "Course Updating ... Please wait" : <></>}</p>
           <div className="pt-4">
             <button
               className="w-full bg-black text-white py-3 rounded-md text-sm font-medium hover:bg-gray-700 transition-all"
