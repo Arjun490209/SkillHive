@@ -1,9 +1,11 @@
 import React from "react";
 import { FaStar } from "react-icons/fa6";
+import {useNavigate} from 'react-router-dom'
 
-const Card = ({ thumbnail, title, category, price, rating = 0 }) => {
+const Card = ({ thumbnail, title, category, price, rating = 0, id }) => {
+  const navigate = useNavigate()
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer w-[300px]">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer w-[300px]" onClick={()=>navigate(`/view-course/${id}`)}>
       
       {/* Thumbnail */}
       <div className="w-full h-48 bg-gray-200 overflow-hidden">
