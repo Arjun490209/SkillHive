@@ -38,6 +38,6 @@ courseRoute.post(
   upload.single("videoUrl"),
   editLecture
 );
-courseRoute.delete("remove-lecture/:lectureId", isAuth, removeLecture);
+courseRoute.delete("/remove-lecture/:lectureId", isAuth, removeLecture);
 
 export default courseRoute;
