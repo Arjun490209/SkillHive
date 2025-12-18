@@ -17,7 +17,10 @@ const EditLecture = () => {
   const [videoUrl, setVideoUrl] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isPreviewFree, setIsPreviewFree] = useState(false);
+  const [isPreviewFree, setIsPreviewFree] = useState(
+    selectedData?.isPreviewFree || false
+  );
+
   const dispatch = useDispatch();
 
   const formData = new FormData();
@@ -35,7 +38,7 @@ const EditLecture = () => {
       console.log(result.data);
       dispatch(setLectureData([...lectureData, result.data]));
       toast.success("Lecture Update Successfully.");
-      navigate("/courses");
+      navigate(`/create-lecture/${courseId}`);
     } catch (error) {
       console.log(error);
       toast.error(error?.response?.data?.message || "Lecture Updated Failed.");

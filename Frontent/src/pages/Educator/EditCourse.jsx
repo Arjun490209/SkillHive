@@ -139,7 +139,7 @@ const EditCourse = () => {
         <MdArrowBack
           className="-top-1/5 md:top-1/5 absolute left-0 md:left-[2%] w-[22px] h-[22px] cursor-pointer "
           onClick={() => {
-            navigate(-1);
+            navigate('/courses');
           }}
         />
 
