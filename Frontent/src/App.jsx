@@ -17,6 +17,7 @@ import getCreatorCourses from './costumHooks/getCreatorCourse'
 import useGetPublishedCourse from './costumHooks/useGetPublishedCourse'
 import AllCourses from './pages/AllCourses'
 import CreateLecture from './pages/Educator/CreateLecture'
+import EditLecture from './pages/Educator/EditLecture'
 
 const App = () => {
   getCurrentUser()
@@ -45,6 +46,7 @@ const App = () => {
 
       {/* lecture Route */}
       <Route path='/create-lecture/:courseId' element={userData?.role === "educator" ? <CreateLecture/>:  <Navigate to={'/signup'} /> }/>
+      <Route path='/edit-lecture/:courseId/:lectureId' element={userData?.role === "educator" ? <EditLecture/>:  <Navigate to={'/signup'} /> }/>
 
 
     
