@@ -1,5 +1,6 @@
 import Course from "../models/CourseModel.js";
 import Lecture from "../models/LectureModel.js";
+import User from "../models/userModal.js";
 import uploadOnCloudinary from "../config/cloudinary.js";
 
 // Create Course
@@ -25,7 +26,9 @@ export const createCourse = async (req, res) => {
 // Get Published Courses
 export const getPublishedCourses = async (req, res) => {
   try {
-    const courses = await Course.find({ isPublished: true }).populate("lectures")
+    const courses = await Course.find({ isPublished: true }).populate(
+      "lectures"
+    );
 
     return res.status(200).json(courses);
   } catch (error) {
@@ -250,22 +253,40 @@ export const editLecture = async (req, res) => {
 
 export const removeLecture = async (req, res) => {
   try {
-    const {lectureId} =req.params
-    const lecture = await Lecture.findByIdAndDelete(lectureId)
-    if(!lecture){
+    const { lectureId } = req.params;
+    const lecture = await Lecture.findByIdAndDelete(lectureId);
+    if (!lecture) {
       return res.status(404).json({
         message: "Lecture not found",
       });
     }
 
     await Course.updateOne(
-     { lectures:lectureId},
-     {$pull:{lectures:lectureId}} 
-    )
-    return res.status(200).json({message:"Lecture removed"})
+      { lectures: lectureId },
+      { $pull: { lectures: lectureId } }
+    );
+    return res.status(200).json({ message: "Lecture removed" });
   } catch (error) {
     res.status(500).json({
       message: `Failed remove Lecture error: ${error.message}`,
+    });
+  }
+};
+
+//! get creator
+export const getCreatorById = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    const user = await User.findById(userId).select("-password");
+    if (!user) {
+      return res.status(400).json({ message: "User Is Not Found" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({
+      message: `Get User error: ${error.message}`,
     });
   }
 };

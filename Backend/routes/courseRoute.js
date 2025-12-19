@@ -8,6 +8,7 @@ import {
   getCourseById,
   getCourseLecture,
   getCreateCourses,
+  getCreatorById,
   getPublishedCourses,
   removeCourse,
   removeLecture,
@@ -39,5 +40,8 @@ courseRoute.post(
   editLecture
 );
 courseRoute.delete("/remove-lecture/:lectureId", isAuth, removeLecture);
+
+// get creator
+courseRoute.post(`/creator`,isAuth, getCreatorById)
 
 export default courseRoute;

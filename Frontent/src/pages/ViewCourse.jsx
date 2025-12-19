@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import axios from "../utils/axios";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedCourse } from "../redux/courseSlice";
 import img from "../assets/empty.jpg";
 import { FaStar, FaLock, FaCirclePlay } from "react-icons/fa6";
+import Card from "../components/Card";
 
 const ViewCourse = () => {
   const navigate = useNavigate();
@@ -13,20 +15,49 @@ const ViewCourse = () => {
   const { selectedCourse } = useSelector((state) => state.course);
   const dispatch = useDispatch();
   const [selectedLecture, setSelectedLecture] = useState(null);
+  const [creatorData, setCreatorData] = useState(null);
+  const [creatorCourse, setCreatorCourse] = useState(null);
 
-  const fetchCourseData = async () => {
-    courseData.map((course) => {
-      if (course._id === courseId) {
-        dispatch(setSelectedCourse(course));
-        console.log(selectedCourse);
-        return null;
-      }
-    });
+  const fetchCourseData = () => {
+    const course = courseData.find((c) => c._id === courseId);
+    if (course) {
+      dispatch(setSelectedCourse(course));
+    }
   };
 
   useEffect(() => {
-    fetchCourseData();
-  }, [courseData]);
+    if (creatorData?._id && courseData?.length > 0) {
+      const creatorCourse = courseData.filter(
+        (course) =>
+          course.creator === creatorData._id && course._id !== courseId
+      );
+
+      setCreatorCourse(creatorCourse);
+    }
+  }, [creatorData, courseData, courseId]);
+
+  useEffect(() => {
+    const handleCreator = async () => {
+      try {
+        if (selectedCourse?.creator) {
+          const result = await axios.post("/api/course/creator", {
+            userId: selectedCourse?.creator,
+          });
+          console.log(result.data);
+          setCreatorData(result.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    handleCreator();
+  }, [selectedCourse]);
+
+  useEffect(() => {
+    if (courseData?.length > 0) {
+      fetchCourseData();
+    }
+  }, [courseData, courseId]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -170,16 +201,65 @@ const ViewCourse = () => {
           <h2 className="text-xl font-semibold mb-2">Write a Reviews</h2>
           <div className="mb-4">
             <div className="flex gap-1 mb-2">
-              {
-                [1,2,3,4,5].map((star)=>(
-                  <FaStar key={star} className="fill-gray-400"/>
-                ))
-              }
+              {[1, 2, 3, 4, 5].map((star) => (
+                <FaStar key={star} className="fill-gray-400" />
+              ))}
             </div>
-            <textarea name="" className="w-full border border-gray-300 rounded-lg p-2" placeholder="Write your Review here..." rows={3}/>
-            <button className="bg-black text-white mt-3 px-4 py-2 rounded cursor-pointer hover:bg-gray-800 transition-all">Submit Review</button>
+            <textarea
+              name=""
+              className="w-full border border-gray-300 rounded-lg p-2"
+              placeholder="Write your Review here..."
+              rows={3}
+            />
+            <button className="bg-black text-white mt-3 px-4 py-2 rounded cursor-pointer hover:bg-gray-800 transition-all">
+              Submit Review
+            </button>
           </div>
         </div>
+
+        {/* For Creator info  */}
+        <div className="flex items-center gap-4 pt-4 border-t">
+          <img
+            src={creatorData?.photoUrl || img}
+            alt={creatorData?.name || "Course Creator"}
+            className="w-16 h-16 rounded-full border border-gray-200 object-cover"
+          />
+
+          <div>
+            <h2 className="text-lg font-semibold text-gray-800">
+              {creatorData?.name || "Unknown Creator"}
+            </h2>
+
+            <p className="text-sm text-gray-600">
+              {creatorData?.description || "Course Creator"}
+            </p>
+
+            <p className="text-sm text-gray-600">
+              {creatorData?.email || "No email available"}
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <p className=" text-xl font-semibold mb-2">
+            Other Published course by the Educator.
+          </p>
+        </div>
+
+        {/* <div className="w-full transition-all duration-300 py-5 flex items-start justify-center lg:justify-start flex-wrap gap-6 lg:px-20"> */}
+        <div className="w-full transition-all duration-300 py-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:px-20">
+          {creatorCourse?.map((course, index) => (
+            <Card
+              key={index}
+              thumbnail={course.thumbnail}
+              id={course._id}
+              price={course.price}
+              title={course.title}
+              category={course.category}
+            />
+          ))}
+        </div>
+        
       </div>
     </div>
   );
