@@ -19,6 +19,7 @@ import AllCourses from './pages/AllCourses'
 import CreateLecture from './pages/Educator/CreateLecture'
 import EditLecture from './pages/Educator/EditLecture'
 import ViewCourse from './pages/ViewCourse'
+import ScrollToTop from './components/ScrollToTop'
 
 const App = () => {
   getCurrentUser()
@@ -29,7 +30,7 @@ const App = () => {
   return (
     <>
     <ToastContainer/>
-    
+    <ScrollToTop />
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/signup' element={!userData ? <SignUp/>: <Navigate to={'/'} />} />
