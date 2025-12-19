@@ -1,5 +1,5 @@
 import Course from "../models/CourseModel.js";
-import Lecture from "../models/LectureModel.js";
+import Lecture from "../models/lectureModel.js";
 import User from "../models/userModal.js";
 import uploadOnCloudinary from "../config/cloudinary.js";
 
