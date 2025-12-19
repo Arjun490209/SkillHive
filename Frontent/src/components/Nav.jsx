@@ -141,20 +141,21 @@ const Nav = () => {
           />
 
           {/* Profile Icon (if user not logged in) */}
-          {!userData && (
-            <IoPersonCircle className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 fill-black cursor-pointer" />
-          )}
-
-          {/* User Initial (if user logged in) */}
-          {userData?.photoUrl ? (
+          {/* User Profile Section */}
+          {!userData ? (
+            // 🔴 Not Logged In
+            <IoPersonCircle className="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 fill-white cursor-pointer" />
+          ) : userData.photoUrl ? (
+            // 🟢 Logged In + Image
             <img
               src={userData.photoUrl}
-              alt=""
-              className="w-10 h-10 rounded-full sm:w-11 sm:h-11 flex items-center justify-center text-base sm:text-lg cursor-pointer border border-white"
+              alt="User"
+              className="w-10 h-10 rounded-full sm:w-11 sm:h-11 cursor-pointer border border-white object-cover"
             />
           ) : (
+            // 🔵 Logged In + No Image → First Letter
             <div className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center bg-black text-white rounded-full text-base sm:text-lg cursor-pointer border border-white">
-              {userData?.name?.slice(0, 1).toUpperCase() || "U"}
+              {userData.name?.charAt(0).toUpperCase()}
             </div>
           )}
 
