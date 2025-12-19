@@ -4,7 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedCourse } from "../redux/courseSlice";
 import img from "../assets/empty.jpg";
-import { FaStar } from "react-icons/fa6";
+import { FaStar, FaLock, FaCirclePlay } from "react-icons/fa6";
+
 const ViewCourse = () => {
   const navigate = useNavigate();
   const { courseId } = useParams();
@@ -130,15 +131,54 @@ const ViewCourse = () => {
                     lecture.isPreviewFree
                       ? "hover:bg-gray-100 cursor-pointer border-gray-300"
                       : "cursor-not-allowed opacity-60 border-gray-200"
+                  } ${
+                    selectedLecture?.lectureTitle === lecture?.lectureTitle
+                      ? "bg-gray-100 borg"
+                      : ""
                   }`}
                 >
-                  {lecture?.lectureTitle}
+                  <span className=" text-lg text-gray-700">
+                    {lecture?.isPreviewFree ? <FaCirclePlay /> : <FaLock />}
+                  </span>
+                  <span className="text-sm font-medium text-gray-800">
+                    {lecture?.lectureTitle}
+                  </span>
                 </button>
               ))}
             </div>
           </div>
 
-          <div></div>
+          <div className="bg-white w-full md:w-3/5 p-6 rounded-2xl shadow-lg border-gray-200 border">
+            <div className=" aspect-video w-full rounded-lg overflow-hidden mb-4 bg-black flex items-center justify-center">
+              {selectedLecture?.videoUrl ? (
+                <video
+                  src={selectedLecture?.videoUrl}
+                  controls
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-white text-sm">
+                  Select a preview lecture to watch
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Reviews */}
+        <div className=" mt-8 border-t pt-6">
+          <h2 className="text-xl font-semibold mb-2">Write a Reviews</h2>
+          <div className="mb-4">
+            <div className="flex gap-1 mb-2">
+              {
+                [1,2,3,4,5].map((star)=>(
+                  <FaStar key={star} className="fill-gray-400"/>
+                ))
+              }
+            </div>
+            <textarea name="" className="w-full border border-gray-300 rounded-lg p-2" placeholder="Write your Review here..." rows={3}/>
+            <button className="bg-black text-white mt-3 px-4 py-2 rounded cursor-pointer hover:bg-gray-800 transition-all">Submit Review</button>
+          </div>
         </div>
       </div>
     </div>

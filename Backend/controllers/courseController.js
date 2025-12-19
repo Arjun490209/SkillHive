@@ -229,11 +229,11 @@ export const editLecture = async (req, res) => {
       lecture.lectureTitle = lectureTitle;
     }
 
-    // safe boolean update
-    if (typeof isPreviewFree === "boolean") {
-      lecture.isPreviewFree = isPreviewFree;
-    }
-    // lecture.isPreviewFree = isPreviewFree;
+    //! safe boolean update
+    // if (typeof isPreviewFree === "boolean") {
+    //   lecture.isPreviewFree = isPreviewFree;
+    // }
+    lecture.isPreviewFree = isPreviewFree === "true";
 
     await lecture.save();
 

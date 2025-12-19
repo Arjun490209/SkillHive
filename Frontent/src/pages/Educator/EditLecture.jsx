@@ -119,12 +119,20 @@ const EditLecture = () => {
             />
           </div>
           <div className="flex items-center gap-3">
-            <input
+            {/* <input
               type="checkbox"
               className=" accent-black h-4 w-4"
               id="isFree"
               onChange={() => setIsPreviewFree((prev) => !prev)}
+            /> */}
+            <input
+              type="checkbox"
+              className="accent-black h-4 w-4"
+              id="isFree"
+              checked={isPreviewFree}
+              onChange={(e) => setIsPreviewFree(e.target.checked)}
             />
+
             <label htmlFor="isFree" className="text-sm text-gray-700">
               Is this Video FREE
             </label>
