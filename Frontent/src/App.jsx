@@ -20,6 +20,7 @@ import CreateLecture from './pages/Educator/CreateLecture'
 import EditLecture from './pages/Educator/EditLecture'
 import ViewCourse from './pages/ViewCourse'
 import ScrollToTop from './components/ScrollToTop'
+import ViewLecture from './pages/ViewLecture'
 
 const App = () => {
   getCurrentUser()
@@ -46,6 +47,7 @@ const App = () => {
       <Route path='/create-course' element={userData?.role === "educator" ? <CreateCourse/>:  <Navigate to={'/signup'} /> }/>
       <Route path='/edit-course/:courseId' element={userData?.role === "educator" ? <EditCourse/>:  <Navigate to={'/signup'} /> }/>
       <Route path='/view-course/:courseId' element={userData?.role === "educator" ? <ViewCourse/>:  <Navigate to={'/signup'} /> }/>
+      <Route path='/view-lecture/:courseId' element={userData?.role === "educator" ? <ViewLecture/>:  <Navigate to={'/signup'} /> }/>
 
       {/* lecture Route */}
       <Route path='/create-lecture/:courseId' element={userData?.role === "educator" ? <CreateLecture/>:  <Navigate to={'/signup'} /> }/>

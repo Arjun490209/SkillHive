@@ -196,7 +196,7 @@ useEffect(() => {
                 Enroll Now
               </button>:<button
                 className="bg-green-100 text-green-600 px-4 py-2 rounded hover:bg-green-300 mt-3 cursor-pointer"
-                
+               onClick={()=>{navigate(`/view-lecture/${courseId}`)}} 
               >
                 Watch Now
               </button>}
