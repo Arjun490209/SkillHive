@@ -4,6 +4,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedCourse } from "../redux/courseSlice";
+import { toast } from "react-toastify";
 import img from "../assets/empty.jpg";
 import { FaStar, FaLock, FaCirclePlay } from "react-icons/fa6";
 import Card from "../components/Card";
@@ -13,10 +14,12 @@ const ViewCourse = () => {
   const { courseId } = useParams();
   const { courseData } = useSelector((state) => state.course);
   const { selectedCourse } = useSelector((state) => state.course);
+  const { userData } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [selectedLecture, setSelectedLecture] = useState(null);
   const [creatorData, setCreatorData] = useState(null);
   const [creatorCourse, setCreatorCourse] = useState(null);
+  const [isEnrolled, setIsEnrolled] = useState(false)
 
   const fetchCourseData = () => {
     const course = courseData.find((c) => c._id === courseId);
@@ -53,11 +56,75 @@ const ViewCourse = () => {
     handleCreator();
   }, [selectedCourse]);
 
+  const checkEnrollment =()=>{
+    const verify = userData?.enrolledCourses?.some(c=>(typeof c === "string" ? c : c._id).tostring() === courseId?.toString())
+    if(verify){
+      setIsEnrolled(true)
+    }
+  }
+
   useEffect(() => {
     if (courseData?.length > 0) {
       fetchCourseData();
     }
-  }, [courseData, courseId]);
+    checkEnrollment()
+  }, [courseData, courseId, courseData]);
+
+  const handleEnroll = async (userId, courseId) => {
+    try {
+      // 1️⃣ Create Razorpay Order
+      const orderData = await axios.post("/api/order/razorpay-order", {
+        courseId,
+      });
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_RfS2tmb0XbYzyW",
+        amount: orderData.data.amount,
+        currency: "INR",
+        name: "SkillHive",
+        description: "Course Enrollment Payment",
+        order_id: orderData.data.id,
+        handler: async function (response) {
+          try {
+            // 2️⃣ Verify Payment
+            const verifyPayment = await axios.post(
+              "/api/order/verify-payment",
+              {
+                courseId,
+                userId,
+                ...response,
+              }
+            );
+            setIsEnrolled(true)
+            toast.success(
+              verifyPayment.data?.message ||
+                "Payment successful & course enrolled 🎉"
+            );
+          } catch (error) {
+            toast.error(
+              error?.response?.data?.message || "Payment verification failed"
+            );
+          }
+        },
+        theme: {
+          color: "#000000",
+        },
+      };
+
+      // 3️⃣ Open Razorpay Checkout
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Unable to initiate Razorpay payment"
+      );
+    }
+  };
+
+
+  
+
+  
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -111,9 +178,17 @@ const ViewCourse = () => {
                 <li>✅ 10+ Hours of video content</li>
                 <li>✅ Life time access to course materials</li>
               </ul>
-              <button className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer">
+              {!isEnrolled ?<button
+                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer"
+                onClick={() => handleEnroll(userData._id, courseId)}
+              >
                 Enroll Now
-              </button>
+              </button>:<button
+                className="bg-green-100 text-green-600 px-4 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer"
+                
+              >
+                Watch Now
+              </button>}
             </div>
           </div>
         </div>
@@ -259,7 +334,6 @@ const ViewCourse = () => {
             />
           ))}
         </div>
-        
       </div>
     </div>
   );

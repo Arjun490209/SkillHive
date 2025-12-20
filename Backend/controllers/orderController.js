@@ -56,3 +56,47 @@ export const verifyPayment = async (req, res) => {
         return res.status(500).json(`Internal server error during payment verification ${error}`)
     }
 }
+
+// export const verifyPayment = async (req, res) => {
+//   try {
+//     const { courseId, userId, razorpay_order_id } = req.body;
+
+//     const orderInfo = await RazorPayInstance.orders.fetch(
+//       razorpay_order_id
+//     );
+
+//     if (orderInfo.status !== "paid") {
+//       return res.status(400).json({ message: "Payment Failed" });
+//     }
+
+//     // ✅ Update User
+//     const user = await User.findById(userId);
+
+//     if (!user.enrolledCourses.includes(courseId)) {
+//       user.enrolledCourses.push(courseId);
+//       await user.save();
+//     }
+
+//     // ✅ Update Course
+//     const course = await Course.findById(courseId);
+
+//     if (!course.enrolledStudents.includes(userId)) {
+//       course.enrolledStudents.push(userId);
+//       await course.save();
+//     }
+
+//     // ✅ SEND UPDATED USER BACK
+//     const updatedUser = await User.findById(userId)
+//       .select("-password")
+//       .populate("enrolledCourses");
+
+//     return res.status(200).json({
+//       message: "Payment verified & enrollment successful",
+//       user: updatedUser,
+//     });
+//   } catch (error) {
+//     return res
+//       .status(500)
+//       .json({ message: `Payment verification failed: ${error.message}` });
+//   }
+// };
