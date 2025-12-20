@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import img from "../assets/empty.jpg";
 import { FaStar, FaLock, FaCirclePlay } from "react-icons/fa6";
 import Card from "../components/Card";
+import setUserData from '../redux/userSlice'
 
 const ViewCourse = () => {
   const navigate = useNavigate();
@@ -56,19 +57,28 @@ const ViewCourse = () => {
     handleCreator();
   }, [selectedCourse]);
 
-  const checkEnrollment =()=>{
-    const verify = userData?.enrolledCourses?.some(c=>(typeof c === "string" ? c : c._id).tostring() === courseId?.toString())
-    if(verify){
-      setIsEnrolled(true)
-    }
+ const checkEnrollment = () => {
+  if (!userData || !courseId) return;
+
+  const verify = userData?.enrolledCourse?.some(
+    (id) => id.toString() === courseId.toString()
+  );
+
+  setIsEnrolled(verify);
+};
+
+
+
+useEffect(() => {
+  if (courseData?.length > 0) {
+    fetchCourseData();
   }
 
-  useEffect(() => {
-    if (courseData?.length > 0) {
-      fetchCourseData();
-    }
-    checkEnrollment()
-  }, [courseData, courseId, courseData]);
+  if (userData) {
+    checkEnrollment();
+  }
+}, [courseData, courseId, userData]);
+
 
   const handleEnroll = async (userId, courseId) => {
     try {
@@ -95,6 +105,7 @@ const ViewCourse = () => {
                 ...response,
               }
             );
+            dispatch(setUserData(verifyPayment.data));
             setIsEnrolled(true)
             toast.success(
               verifyPayment.data?.message ||
@@ -184,7 +195,7 @@ const ViewCourse = () => {
               >
                 Enroll Now
               </button>:<button
-                className="bg-green-100 text-green-600 px-4 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer"
+                className="bg-green-100 text-green-600 px-4 py-2 rounded hover:bg-green-300 mt-3 cursor-pointer"
                 
               >
                 Watch Now
