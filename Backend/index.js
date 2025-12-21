@@ -23,6 +23,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
+      "https://skillhive-bksm.onrender.com",
       "https://skill-hive-three.vercel.app",
     ],
     credentials: true,
