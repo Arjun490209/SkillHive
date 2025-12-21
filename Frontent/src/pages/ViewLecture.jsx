@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import axios from "../utils/axios";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import {  FaCirclePlay } from "react-icons/fa6";
+import img from "../assets/empty.jpg";
 
 const ViewLecture = () => {
   const navigate = useNavigate();
@@ -93,6 +94,28 @@ const ViewLecture = () => {
             <p className="text-gray-500">No Lecture Available.</p>
           )}
         </div>
+        {/* For Creator info  */}
+                <div className="flex items-center gap-4 pt-4 border-t">
+                  <img
+                    src={creatorData?.photoUrl || img}
+                    alt={creatorData?.name || "Course Creator"}
+                    className="w-16 h-16 rounded-full border border-gray-200 object-cover"
+                  />
+        
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      {creatorData?.name || "Unknown Creator"}
+                    </h2>
+        
+                    <p className="text-sm text-gray-600">
+                      {creatorData?.description || "Course Creator"}
+                    </p>
+        
+                    <p className="text-sm text-gray-600">
+                      {creatorData?.email || "No email available"}
+                    </p>
+                  </div>
+                </div>
       </div>
     </div>
   );

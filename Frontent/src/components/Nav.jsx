@@ -110,7 +110,11 @@ const Nav = () => {
               >
                 My Profile
               </span>
-              <span className="bg-black text-white px-7 py-2.5 rounded-2xl hover:bg-gray-600 cursor-pointer">
+              <span className="bg-black text-white px-7 py-2.5 rounded-2xl hover:bg-gray-600 cursor-pointer" 
+              onClick={() => {
+                navigate("/my-courses");
+              }}
+              >
                 My Courses
               </span>
             </div>
@@ -169,7 +173,11 @@ const Nav = () => {
             My Profile
           </div>
 
-          <div className="w-52 h-14 flex justify-center items-center bg-black text-white rounded-lg cursor-pointer">
+          <div className="w-52 h-14 flex justify-center items-center bg-black text-white rounded-lg cursor-pointer"
+          onClick={() => {
+                navigate("/my-courses");
+              }}
+          >
             My Courses
           </div>
 
