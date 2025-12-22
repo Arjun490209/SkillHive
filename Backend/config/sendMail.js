@@ -5,12 +5,12 @@ dotenv.config();
 
 // ✅ Create transporter
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,       
-  port: Number(process.env.SMTP_PORT), 
+  host: smtp.gmail.com,       
+  port: 587, 
   secure: false,                    
   auth: {
-    user: process.env.SMTP_USER,   
-    pass: process.env.SMTP_PASS,     
+    user: process.env.GMAIL_USER,   
+    pass: process.env.GMAIL_PASS,     
   },
 });
 
@@ -27,7 +27,7 @@ transporter.verify((err, success) => {
 const sendMail = async (to, otp) => {
   try {
     await transporter.sendMail({
-      from: `"SkillHive" <${process.env.SMTP_SENDER}>`,
+      from: `"SkillHive" <${process.env.GMAIL_USER}>`,
       to,
       subject: "Reset Your Password",
       html: `<p>Your OTP for password reset is <b>${otp}</b>. It expires in 5 minutes.</p>`,
@@ -38,6 +38,10 @@ const sendMail = async (to, otp) => {
 };
 
 export default sendMail;
+
+
+
+
 
 // import nodemailer from "nodemailer";
 // import dotenv from "dotenv";
