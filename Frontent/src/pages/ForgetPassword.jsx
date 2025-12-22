@@ -109,7 +109,7 @@ const Profile = () => {
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2 text-white">
-                  <ClipLoader size={20} className="text-white"/>
+                  <ClipLoader size={20} className="text-white" color="white"/>
                   Sending OTP...
                 </span>
               ) : (
@@ -165,7 +165,7 @@ const Profile = () => {
             >
               {isLoading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <ClipLoader size={20} className="fill-white"/>
+                  <ClipLoader size={20} className="fill-white" color="white"/>
                   Verifying OTP...
                 </span>
               ) : (
@@ -240,7 +240,7 @@ const Profile = () => {
             >
               {isLoading ? (
                 <span className="flex fill-white items-center justify-center gap-2">
-                  <ClipLoader size={20} />
+                  <ClipLoader size={20} color="white"/>
                   Resetting Password...
                 </span>
               ) : (
