@@ -24,7 +24,7 @@ const MyEnrolledCourse = () => {
         <div className=" flex items-center justify-center flex-wrap gap-7">
           {
             userData?.enrolledCourse?.map((course, index)=>(
-              <div key={index} className="bg-white rounded-2xl shadow-md overflow-hidden border">
+              <div key={index} className="bg-white w-[300px] rounded-2xl shadow-md overflow-hidden border">
                 <img src={course.thumbnail} alt="" className="w-full h-40 object-cover" />
                 <div className="p-4">
                   <h2 className="text-lg font-semibold text-gray-800">{course.title}</h2>

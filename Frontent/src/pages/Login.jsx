@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
 import {signInWithPopup} from 'firebase/auth'
 import{ auth, provider} from '../utils/firebase'
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -68,12 +69,17 @@ const Login = () => {
 
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-blue-200">
+      
       <form
-        className="w-[90%] md:w-200 h-150 bg-white rounded-2xl shadow-lg flex "
+        className="w-[90%] md:w-200 h-150 bg-white rounded-2xl shadow-lg flex relative "
         onSubmit={(e) => {
           e.preventDefault();
         }}
       >
+        <FaArrowLeftLong
+                className=" absolute top-[18%] md:top-[18%] left-[6%] w-5 h-5 cursor-pointer"
+                onClick={() => navigate("/")}
+              />
         {/* left div */}
         <div className="md:w-[50%] w-full h-full rounded-l-2xl flex flex-col items-center justify-center gap-3">
           <div className="flex flex-col items-center justify-center gap-1">
