@@ -2,6 +2,7 @@ import React from 'react'
 import about from '../assets/about.jpg'
 import video from '../assets/video.mp4'
 import {TfiLayoutLineSolid} from 'react-icons/tfi'
+import {BsFillPaletteFill} from 'react-icons/bs'
 
 const About = () => {
   return (
@@ -20,6 +21,11 @@ const About = () => {
             <div className='md:text-[45px] text-[35px] font-semibold'>We Are Maximize Your Learning Growth.</div>
             <div className='text-[15px]'>
                 We provide a modern Learning Management System to simplify online education, track progress, and enhance student-instructor collaboration efficiently.
+            </div>
+            <div className='w-full lg:w-[60%] '>
+                <div className='flex items-center justify-center gap-2.5'>
+                    <BsFillPaletteFill className='w-5 h-5'/>Simplified Learning
+                </div>
             </div>
         </div>
     </div>
