@@ -8,7 +8,8 @@ import { toast } from "react-toastify";
 import img from "../assets/empty.jpg";
 import { FaStar, FaLock, FaCirclePlay } from "react-icons/fa6";
 import Card from "../components/Card";
-import setUserData from '../redux/userSlice'
+import setUserData from "../redux/userSlice";
+import { CircleLoader } from "react-spinners";
 
 const ViewCourse = () => {
   const navigate = useNavigate();
@@ -20,7 +21,10 @@ const ViewCourse = () => {
   const [selectedLecture, setSelectedLecture] = useState(null);
   const [creatorData, setCreatorData] = useState(null);
   const [creatorCourse, setCreatorCourse] = useState(null);
-  const [isEnrolled, setIsEnrolled] = useState(false)
+  const [isEnrolled, setIsEnrolled] = useState(false);
+  const [ratting, setRatting] = useState(0);
+  const [comment, setComment] = useState("");
+  const [loading, setLoading] = useState(false)
 
   const fetchCourseData = () => {
     const course = courseData.find((c) => c._id === courseId);
@@ -57,28 +61,25 @@ const ViewCourse = () => {
     handleCreator();
   }, [selectedCourse]);
 
- const checkEnrollment = () => {
-  if (!userData || !courseId) return;
+  const checkEnrollment = () => {
+    if (!userData || !courseId) return;
 
-  const verify = userData?.enrolledCourse?.some(
-    (id) => id.toString() === courseId.toString()
-  );
+    const verify = userData?.enrolledCourse?.some(
+      (id) => id.toString() === courseId.toString()
+    );
 
-  setIsEnrolled(verify);
-};
+    setIsEnrolled(verify);
+  };
 
+  useEffect(() => {
+    if (courseData?.length > 0) {
+      fetchCourseData();
+    }
 
-
-useEffect(() => {
-  if (courseData?.length > 0) {
-    fetchCourseData();
-  }
-
-  if (userData) {
-    checkEnrollment();
-  }
-}, [courseData, courseId, userData]);
-
+    if (userData) {
+      checkEnrollment();
+    }
+  }, [courseData, courseId, userData]);
 
   const handleEnroll = async (userId, courseId) => {
     try {
@@ -106,7 +107,7 @@ useEffect(() => {
               }
             );
             dispatch(setUserData(verifyPayment.data));
-            setIsEnrolled(true)
+            setIsEnrolled(true);
             toast.success(
               verifyPayment.data?.message ||
                 "Payment successful & course enrolled 🎉"
@@ -132,10 +133,20 @@ useEffect(() => {
     }
   };
 
-
-  
-
-  
+  const handleReview = async () => {
+    try {
+      setLoading(true)
+      const result = await axios.post(`/api/review/create-review`,{ratting, comment, courseId})
+      console.log(result.data)
+      toast.success("Review Added")
+      setComment("")
+      setRatting(0)
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Review Added Failed.")
+    }finally{
+      setLoading(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -189,17 +200,23 @@ useEffect(() => {
                 <li>✅ 10+ Hours of video content</li>
                 <li>✅ Life time access to course materials</li>
               </ul>
-              {!isEnrolled ?<button
-                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer"
-                onClick={() => handleEnroll(userData._id, courseId)}
-              >
-                Enroll Now
-              </button>:<button
-                className="bg-green-100 text-green-600 px-4 py-2 rounded hover:bg-green-300 mt-3 cursor-pointer"
-               onClick={()=>{navigate(`/view-lecture/${courseId}`)}} 
-              >
-                Watch Now
-              </button>}
+              {!isEnrolled ? (
+                <button
+                  className="bg-black text-white px-4 py-2 rounded hover:bg-gray-700 mt-3 cursor-pointer"
+                  onClick={() => handleEnroll(userData._id, courseId)}
+                >
+                  Enroll Now
+                </button>
+              ) : (
+                <button
+                  className="bg-green-100 text-green-600 px-4 py-2 rounded hover:bg-green-300 mt-3 cursor-pointer"
+                  onClick={() => {
+                    navigate(`/view-lecture/${courseId}`);
+                  }}
+                >
+                  Watch Now
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -288,17 +305,25 @@ useEffect(() => {
           <div className="mb-4">
             <div className="flex gap-1 mb-2">
               {[1, 2, 3, 4, 5].map((star) => (
-                <FaStar key={star} className="fill-gray-400" />
+                <FaStar
+                  key={star}
+                  onClick={() => setRatting(star)}
+                  className={
+                    star <= ratting ? "fill-amber-300" : "fill-gray-300"
+                  }
+                />
               ))}
             </div>
             <textarea
+              onChange={(e) => setComment(e.target.value)}
+              value={comment}
               name=""
               className="w-full border border-gray-300 rounded-lg p-2"
               placeholder="Write your Review here..."
               rows={3}
             />
-            <button className="bg-black text-white mt-3 px-4 py-2 rounded cursor-pointer hover:bg-gray-800 transition-all">
-              Submit Review
+            <button className="bg-black text-white mt-3 px-4 py-2 rounded cursor-pointer hover:bg-gray-800 transition-all" onClick={handleReview} disabled={loading}>
+              {loading? <CircleLoader size={22} color="white"/> :"Submit Review"}
             </button>
           </div>
         </div>

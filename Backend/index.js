@@ -7,6 +7,7 @@ import authRouter from "./routes/authRoute.js";
 import userRoute from "./routes/userRoute.js";
 import courseRoute from "./routes/courseRoute.js";
 import paymentRouter from "./routes/paymentRoute.js";
+import reviewRouter from "./routes/reviewRoute.js";
 
 dotenv.config();
 const port = process.env.PORT || 8000;
@@ -38,6 +39,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRoute);
 app.use("/api/course", courseRoute);
 app.use("/api/order",paymentRouter );
+app.use("/api/review",reviewRouter );
 
 app.listen(port, () => {
   console.log(`server run port ${port}`);
