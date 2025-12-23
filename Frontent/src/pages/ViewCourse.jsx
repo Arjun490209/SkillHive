@@ -24,7 +24,7 @@ const ViewCourse = () => {
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [ratting, setRatting] = useState(0);
   const [comment, setComment] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const fetchCourseData = () => {
     const course = courseData.find((c) => c._id === courseId);
@@ -51,7 +51,6 @@ const ViewCourse = () => {
           const result = await axios.post("/api/course/creator", {
             userId: selectedCourse?.creator,
           });
-          console.log(result.data);
           setCreatorData(result.data);
         }
       } catch (error) {
@@ -135,18 +134,42 @@ const ViewCourse = () => {
 
   const handleReview = async () => {
     try {
-      setLoading(true)
-      const result = await axios.post(`/api/review/create-review`,{ratting, comment, courseId})
-      console.log(result.data)
-      toast.success("Review Added")
-      setComment("")
-      setRatting(0)
+      setLoading(true);
+      await axios.post(`/api/review/create-review`, {
+        ratting,
+        comment,
+        courseId,
+      });
+      toast.success("Review Added");
+      setComment("");
+      setRatting(0);
     } catch (error) {
-      toast.error(error?.response?.data?.message || "Review Added Failed.")
-    }finally{
-      setLoading(false)
+      toast.error(error?.response?.data?.message || "Review Added Failed.");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
+
+  const calculateAvgReview = (reviews) => {
+    if (!reviews || reviews.length === 0) {
+      return 0;
+    }
+
+    const total = reviews.reduce((sum, review) => {
+      return sum + review.ratting;
+    }, 0);
+
+    return (total / reviews.length).toFixed(1);
+  };
+
+  const avgRatting = calculateAvgReview(selectedCourse?.reviews);
+
+  const getTotalReviewCount = (reviews) => {
+    if (!reviews) return 0;
+    return reviews.length;
+  };
+
+  const totalReviews = getTotalReviewCount(selectedCourse?.reviews);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -185,9 +208,9 @@ const ViewCourse = () => {
               <div className="text-amber-300 flex gap-2">
                 <span className="flex items-center justify-start gap-1">
                   {" "}
-                  <FaStar /> 5
+                  <FaStar /> {avgRatting}
                 </span>
-                <span className=" text-gray-400"> (1,200 Reviews)</span>
+                <span className=" text-gray-400"> ({totalReviews} Reviews)</span>
               </div>
               <div>
                 <span className="text-lg font-medium text-black">
@@ -322,8 +345,16 @@ const ViewCourse = () => {
               placeholder="Write your Review here..."
               rows={3}
             />
-            <button className="bg-black text-white mt-3 px-4 py-2 rounded cursor-pointer hover:bg-gray-800 transition-all" onClick={handleReview} disabled={loading}>
-              {loading? <CircleLoader size={22} color="white"/> :"Submit Review"}
+            <button
+              className="bg-black text-white mt-3 px-4 py-2 rounded cursor-pointer hover:bg-gray-800 transition-all"
+              onClick={handleReview}
+              disabled={loading}
+            >
+              {loading ? (
+                <CircleLoader size={22} color="white" />
+              ) : (
+                "Submit Review"
+              )}
             </button>
           </div>
         </div>

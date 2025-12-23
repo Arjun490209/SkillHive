@@ -1,66 +1,144 @@
-import React from 'react'
-import {Routes, Route, Navigate} from 'react-router-dom'
-import Home from './pages/Home'
-import SignUp from './pages/SignUp'
-import Login from './pages/Login'
-import {ToastContainer} from 'react-toastify'
-import getCurrentUser from './costumHooks/getCurrentUser'
-import { useSelector } from 'react-redux'
-import Profile from './pages/Profile'
-import ForgetPassword from './pages/ForgetPassword'
-import EditProfile from './pages/EditProfile'
-import Dashboard from './pages/Educator/Dashboard'
-import Courses from './pages/Educator/Courses'
-import EditCourse from './pages/Educator/EditCourse'
-import CreateCourse from './pages/Educator/CreateCourse'
-import getCreatorCourses from './costumHooks/getCreatorCourse'
-import useGetPublishedCourse from './costumHooks/useGetPublishedCourse'
-import AllCourses from './pages/AllCourses'
-import CreateLecture from './pages/Educator/CreateLecture'
-import EditLecture from './pages/Educator/EditLecture'
-import ViewCourse from './pages/ViewCourse'
-import ScrollToTop from './components/ScrollToTop'
-import ViewLecture from './pages/ViewLecture'
-import MyEnrolledCourse from './pages/MyEnrolledCourse'
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Home from "./pages/Home";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import { ToastContainer } from "react-toastify";
+import getCurrentUser from "./costumHooks/getCurrentUser";
+import { useSelector } from "react-redux";
+import Profile from "./pages/Profile";
+import ForgetPassword from "./pages/ForgetPassword";
+import EditProfile from "./pages/EditProfile";
+import Dashboard from "./pages/Educator/Dashboard";
+import Courses from "./pages/Educator/Courses";
+import EditCourse from "./pages/Educator/EditCourse";
+import CreateCourse from "./pages/Educator/CreateCourse";
+import getCreatorCourses from "./costumHooks/getCreatorCourse";
+import useGetPublishedCourse from "./costumHooks/useGetPublishedCourse";
+import AllCourses from "./pages/AllCourses";
+import CreateLecture from "./pages/Educator/CreateLecture";
+import EditLecture from "./pages/Educator/EditLecture";
+import ViewCourse from "./pages/ViewCourse";
+import ScrollToTop from "./components/ScrollToTop";
+import ViewLecture from "./pages/ViewLecture";
+import MyEnrolledCourse from "./pages/MyEnrolledCourse";
+import useGetReview from "./costumHooks/useGetReview";
 
 const App = () => {
-  getCurrentUser()
- useGetPublishedCourse()
-  getCreatorCourses()
+  getCurrentUser();
+  useGetPublishedCourse();
+  getCreatorCourses();
+  useGetReview();
 
-  const {userData} = useSelector((state) => state.user)
+  const { userData } = useSelector((state) => state.user);
   return (
     <>
-    <ToastContainer/>
-    <ScrollToTop />
-    <Routes>
-      <Route path='/' element={<Home/>}/>
-      <Route path='/signup' element={!userData ? <SignUp/>: <Navigate to={'/'} />} />
-      <Route path='/login' element={<Login/>} />
-      <Route path='/profile' element={userData ?<Profile/> : <Navigate to={'/signup'} />}/>
-      <Route path='/forget-password' element={userData ?<ForgetPassword/> : <Navigate to={'/signup'} />}/>
-      <Route path='/edit-profile' element={userData ?<EditProfile/> : <Navigate to={'/signup'} />}/>
-      <Route path='/all-courses' element={userData ?<AllCourses/> : <Navigate to={'/signup'} />}/>
+      <ToastContainer />
+      <ScrollToTop />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/signup"
+          element={!userData ? <SignUp /> : <Navigate to={"/"} />}
+        />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/profile"
+          element={userData ? <Profile /> : <Navigate to={"/signup"} />}
+        />
+        <Route
+          path="/forget-password"
+          element={userData ? <ForgetPassword /> : <Navigate to={"/signup"} />}
+        />
+        <Route
+          path="/edit-profile"
+          element={userData ? <EditProfile /> : <Navigate to={"/signup"} />}
+        />
+        <Route
+          path="/all-courses"
+          element={userData ? <AllCourses /> : <Navigate to={"/signup"} />}
+        />
 
-      {/* Course Route */}
-      <Route path='/dashboard' element={userData?.role === "educator" ? <Dashboard/>:  <Navigate to={'/signup'} /> }/>
-      <Route path='/courses' element={userData?.role === "educator" ? <Courses/>:  <Navigate to={'/signup'} /> }/>
-      <Route path='/create-course' element={userData?.role === "educator" ? <CreateCourse/>:  <Navigate to={'/signup'} /> }/>
-      <Route path='/edit-course/:courseId' element={userData?.role === "educator" ? <EditCourse/>:  <Navigate to={'/signup'} /> }/>
-      <Route path='/view-course/:courseId' element={userData? <ViewCourse/>:  <Navigate to={'/signup'} /> }/>
-      <Route path='/view-lecture/:courseId' element={userData ? <ViewLecture/>:  <Navigate to={'/signup'} /> }/>
-      <Route path='/my-courses' element={userData? <MyEnrolledCourse/>:  <Navigate to={'/signup'} /> }/>
+        {/* Course Route */}
+        <Route
+          path="/dashboard"
+          element={
+            userData?.role === "educator" ? (
+              <Dashboard />
+            ) : (
+              <Navigate to={"/signup"} />
+            )
+          }
+        />
+        <Route
+          path="/courses"
+          element={
+            userData?.role === "educator" ? (
+              <Courses />
+            ) : (
+              <Navigate to={"/signup"} />
+            )
+          }
+        />
+        <Route
+          path="/create-course"
+          element={
+            userData?.role === "educator" ? (
+              <CreateCourse />
+            ) : (
+              <Navigate to={"/signup"} />
+            )
+          }
+        />
+        <Route
+          path="/edit-course/:courseId"
+          element={
+            userData?.role === "educator" ? (
+              <EditCourse />
+            ) : (
+              <Navigate to={"/signup"} />
+            )
+          }
+        />
+        <Route
+          path="/view-course/:courseId"
+          element={userData ? <ViewCourse /> : <Navigate to={"/signup"} />}
+        />
+        <Route
+          path="/view-lecture/:courseId"
+          element={userData ? <ViewLecture /> : <Navigate to={"/signup"} />}
+        />
+        <Route
+          path="/my-courses"
+          element={
+            userData ? <MyEnrolledCourse /> : <Navigate to={"/signup"} />
+          }
+        />
 
-      {/* lecture Route */}
-      <Route path='/create-lecture/:courseId' element={userData?.role === "educator" ? <CreateLecture/>:  <Navigate to={'/signup'} /> }/>
-      <Route path='/edit-lecture/:courseId/:lectureId' element={userData?.role === "educator" ? <EditLecture/>:  <Navigate to={'/signup'} /> }/>
-
-
-
-    
-    </Routes>
+        {/* lecture Route */}
+        <Route
+          path="/create-lecture/:courseId"
+          element={
+            userData?.role === "educator" ? (
+              <CreateLecture />
+            ) : (
+              <Navigate to={"/signup"} />
+            )
+          }
+        />
+        <Route
+          path="/edit-lecture/:courseId/:lectureId"
+          element={
+            userData?.role === "educator" ? (
+              <EditLecture />
+            ) : (
+              <Navigate to={"/signup"} />
+            )
+          }
+        />
+      </Routes>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
