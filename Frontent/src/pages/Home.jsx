@@ -44,7 +44,7 @@ const navigate = useNavigate()
           </button>
 
           {/* Button 2 */}
-          <button className="px-5 py-2.5 border-2 border-black bg-black lg:bg-white text-white lg:text-black text-lg font-light flex gap-2 items-center rounded-lg cursor-pointer">
+          <button className="px-5 py-2.5 border-2 border-black bg-black lg:bg-white text-white lg:text-black text-lg font-light flex gap-2 items-center rounded-lg cursor-pointer" onClick={()=>navigate("/search")}>
             Search With AI
             <img
               src={searchPng1}

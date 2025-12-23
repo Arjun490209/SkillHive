@@ -23,6 +23,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import ViewLecture from "./pages/ViewLecture";
 import MyEnrolledCourse from "./pages/MyEnrolledCourse";
 import useGetReview from "./costumHooks/useGetReview";
+import SearchWithAi from "./pages/SearchWithAi";
 
 const App = () => {
   getCurrentUser();
@@ -112,6 +113,12 @@ const App = () => {
           path="/my-courses"
           element={
             userData ? <MyEnrolledCourse /> : <Navigate to={"/signup"} />
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            userData ? <SearchWithAi /> : <Navigate to={"/signup"} />
           }
         />
 

@@ -84,7 +84,7 @@ const AllCourses = () => {
             <FiX size={24} />
           </button>
 
-          <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition mb-6 w-full justify-center mt-8 lg:mt-0">
+          <button className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition mb-6 w-full justify-center mt-8 lg:mt-0" onClick={()=>{navigate("/all-courses")}}>
             Search with AI
             <img src={ai} alt="AI" className="w-5 h-5 rounded-full" />
           </button>
