@@ -10,6 +10,7 @@ import ExploreCourses from "../components/ExploreCourses";
 import CardPage from "../components/CardPage";
 import Footer from "../components/Footer";
 import About from "../components/About";
+import ReviewPage from "../components/ReviewPage";
 
 
 const Home = () => {
@@ -68,7 +69,7 @@ const navigate = useNavigate()
       <CardPage />
 
       <About/>
-
+      <ReviewPage/>
       <Footer/>
     </div>
   );
