@@ -50,7 +50,22 @@ It allows users to explore courses, enroll, learn online, and manage their profi
 ---
 
 ## 📸 Screenshots
-> (You can add screenshots here later)
+> 
+👉 Code block ke andar image **kabhi show nahi hoti**
+
+---
+
+## ✅ Sahi (FINAL FIX – Copy Paste This)
+
+### **Bas ` ```md ` hata do** 👇
+
+```md
+## 📸 Screenshots
+
+![Home Page](screenshots/home.png)
+
+![Course Page](screenshots/course.png)
+
 
 ```md
 ![Home Page](screenshots/home.png)
