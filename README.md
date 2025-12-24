@@ -29,19 +29,19 @@ It allows users to explore courses, enroll, learn online, and manage their profi
 ## 🛠 Tech Stack
 
 ### Frontend
-- React.js
-- Tailwind CSS
-- React Router
-- Axios
-- React Icons
+- React.js  
+- Tailwind CSS  
+- React Router  
+- Axios  
+- React Icons  
 
 ### Backend
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT Authentication
-- Cloudinary (Image Upload)
+- Node.js  
+- Express.js  
+- MongoDB  
+- Mongoose  
+- JWT Authentication  
+- Cloudinary (Image Upload)  
 
 ### Deployment
 - Frontend & Backend: **Render**
@@ -50,23 +50,18 @@ It allows users to explore courses, enroll, learn online, and manage their profi
 ---
 
 ## 📸 Screenshots
-> 
-👉 Code block ke andar image **kabhi show nahi hoti**
+
+### 🏠 Home Page
+![Home Page](./screenshots/home.png)
+
+### 📚 Course Page
+![Course Page](./screenshots/course.png)
 
 ---
 
-## ✅ Sahi (FINAL FIX – Copy Paste This)
+## ⚙️ Installation & Setup
 
-### **Bas ` ```md ` hata do** 👇
-
-```md
-## 📸 Screenshots
-
-![Home Page](screenshots/home.png)
-
-![Course Page](screenshots/course.png)
-
-
-```md
-![Home Page](screenshots/home.png)
-![Course Page](screenshots/course.png)
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/Arjun490209/SkillHive.git
+cd SkillHive
